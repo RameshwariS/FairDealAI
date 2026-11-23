@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><style>
+@page { size: A4; margin: 17mm 19mm 16mm 19mm; }
+:root { --ink:#1E2559; --text:#2B2F3A; --mute:#666C80; --rule:#DFE2EC; --wash:#F3F4F9;
+        --floor:#D98E04; --buyer:#8E98C4; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin:0; font-family: Lora, Georgia, serif; font-size: 10.1pt; line-height: 1.52; color: var(--text); }
+h1, h2, h3, .sans, table, .lead, .meta, figcaption { font-family: "Fira Sans", sans-serif; }
+.page { page-break-after: always; }
+.page:last-child { page-break-after: auto; }
+header.top { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom: 8pt;
+             border-bottom: 2pt solid var(--ink); margin-bottom: 12pt; }
+.word { font-family:"Fira Sans"; font-weight:600; font-size: 31pt; line-height: 1; color: var(--ink); letter-spacing:-0.01em; }
+.word small { font-family: FreeSerif, serif; font-weight: 400; font-size: 15pt; color: var(--mute); margin-left: 8pt; letter-spacing: 0; }
+.tag { font-family:"Fira Sans"; font-weight:300; font-size: 13.5pt; color: var(--ink); margin-top: 5pt; }
+.meta { text-align: right; font-size: 8.6pt; line-height: 1.45; color: var(--mute); }
+.meta b { color: var(--ink); font-weight: 600; }
+figure { margin: 0 0 10pt; }
+.chart { width: 100%; display:block; }
+.chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .tick { font: 10.5px "Fira Sans"; fill: var(--mute); }
+.chart .trickline { stroke: #C9CCD8; stroke-width: 1; stroke-dasharray: 2 3; }
+.chart .trick { font: 500 10.5px "Fira Sans"; fill: #5A6076; }
+.chart .floor { stroke: var(--floor); stroke-width: 2.2; stroke-dasharray: 7 4; }
+.chart .floorlab { font: 600 11px "Fira Sans"; fill: #A86C00; }
+.chart .buyer { fill:none; stroke: var(--buyer); stroke-width: 2; }
+.chart .buyerdot { fill: var(--buyer); }
+.chart .fake { fill: #fff; stroke: var(--buyer); stroke-width: 1.6; }
+.chart .fakelab { font: 500 10.5px "Fira Sans"; fill: #6F79A8; }
+.chart .seller { fill:none; stroke: var(--ink); stroke-width: 2.6; }
+.chart .sellerdot { fill: var(--ink); }
+.chart .deal { fill: none; stroke: var(--ink); stroke-width: 2; }
+.chart .deallab, .chart .seriesS { font: 600 11.5px "Fira Sans"; fill: var(--ink); }
+.chart .seriesB { font: 600 11.5px "Fira Sans"; fill: #6F79A8; }
+figcaption { font-size: 8.4pt; line-height: 1.45; color: var(--mute); margin-top: 3pt; max-width: 160mm; }
+figcaption b { color: var(--text); font-weight: 600; }
+h2 { font-size: 11.5pt; font-weight: 600; color: var(--ink); margin: 13pt 0 3pt; }
+p { margin: 0 0 6pt; }
+.cols { column-count: 2; column-gap: 9mm; }
+.cols p, .cols .pillar { break-inside: avoid; }
+.pillar { margin: 0 0 7pt; }
+.pillar h3 { font-size: 10.2pt; font-weight: 600; color: var(--ink); margin: 0 0 1pt; }
+.pillar p { margin: 0; }
+.thesis { font-size: 12.6pt; line-height: 1.45; color: var(--ink); margin: 2pt 0 8pt; }
+table { width: 100%; border-collapse: collapse; font-size: 9pt; line-height: 1.35; margin: 4pt 0 4pt; }
+th { text-align: left; font-weight: 600; color: var(--ink); border-bottom: 1.4pt solid var(--ink); padding: 3pt 6pt 3pt 0; }
+td { border-bottom: 0.6pt solid var(--rule); padding: 3.2pt 6pt 3.2pt 0; vertical-align: top; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.us { font-weight: 600; color: var(--ink); }
+.note { font-family: "Fira Sans"; font-size: 8.2pt; color: var(--mute); }
+.foot { font-family: "Fira Sans"; font-size: 8pt; color: var(--mute); margin-top: 10pt; padding-top: 5pt; border-top: 0.6pt solid var(--rule); display:flex; justify-content: space-between; }
+.pipe { width: 100%; display: block; margin: 2pt 0 4pt; }
+.pipe .box { fill: #fff; stroke: #9AA0B8; stroke-width: 1.1; }
+.pipe .box.hot { fill: #FFF7E6; stroke: var(--floor); stroke-width: 2.4; }
+.pipe .bname { font: 600 14px "Fira Sans"; fill: var(--ink); }
+.pipe .bline { font: 12.2px "Fira Sans"; fill: #3E4354; }
+.pipe .conn { fill: none; stroke: #7C83A0; stroke-width: 1.3; }
+.pipe .arrowhead { fill: #7C83A0; }
+.pipe .pin, .pipe .pnote { font: 500 11.5px "Fira Sans"; fill: var(--mute); }
+.arch p { font-size: 9.5pt; line-height: 1.45; margin-bottom: 5pt; }
+.arch h2 { margin-top: 9pt; }
+.lead { font-weight: 600; color: var(--ink); }
+</style></head><body>
+<section class="page arch">
+  <header class="top">
+    <div><div class="word" style="font-size:24pt">FairDeal AI<small>architecture note</small></div></div>
+    <div class="meta"><b>AgentX Challenge 2</b><br>Selling to Machines<br>Round 1</div>
+  </header>
+  <p class="thesis">AI reads and writes the conversation; code decides money. Every price, acceptance and walk-away comes from deterministic code, and a policy gate checks every message before it leaves the store.</p>
+  <svg viewBox="0 0 760 236" class="pipe" role="img" aria-label="Seller pipeline">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="arrowhead"/></marker></defs>
+<text x="16" y="22" class="pin">Buyer message in (JSON or free text)</text>
+<path d="M26 28V40" class="conn" marker-end="url(#ar)"/>
+<path d="M244 79.0H266" class="conn" marker-end="url(#ar)"/>
+<path d="M494 79.0H516" class="conn" marker-end="url(#ar)"/>
+<path d="M630.0 118V150" class="conn" marker-end="url(#ar)"/>
+<path d="M516 189.0H494" class="conn" marker-end="url(#ar)"/>
+<path d="M266 189.0H244" class="conn" marker-end="url(#ar)"/>
+<text x="638.0" y="138.0" class="pnote">every price</text>
+<rect x="16" y="40" width="228" height="78" rx="6" class="box"/>
+<text x="30" y="64" class="bname">Parse and screen</text>
+<text x="30" y="85" class="bline">Reads intent, items, price</text>
+<text x="30" y="102" class="bline">Flags tricks, hidden fields too</text>
+<rect x="266" y="40" width="228" height="78" rx="6" class="box"/>
+<text x="280" y="64" class="bname">Fix the basket</text>
+<text x="280" y="85" class="bline">Caps quantity to real stock</text>
+<text x="280" y="102" class="bline">Suggests in-stock swaps</text>
+<rect x="516" y="40" width="228" height="78" rx="6" class="box"/>
+<text x="530" y="64" class="bname">Negotiation engine</text>
+<text x="530" y="85" class="bline">Time curve + reciprocity</text>
+<text x="530" y="102" class="bline">Closes or walks by round 10</text>
+<rect x="516" y="150" width="228" height="78" rx="6" class="box hot"/>
+<text x="530" y="174" class="bname">Policy guard</text>
+<text x="530" y="195" class="bline">Floor from margin and discount</text>
+<text x="530" y="212" class="bline">Every bundle unit above it</text>
+<rect x="266" y="150" width="228" height="78" rx="6" class="box"/>
+<text x="280" y="174" class="bname">Writer and truth check</text>
+<text x="280" y="195" class="bline">Words from store data only</text>
+<text x="280" y="212" class="bline">No buyer numbers repeated</text>
+<rect x="16" y="150" width="228" height="78" rx="6" class="box"/>
+<text x="30" y="174" class="bname">Reply to the buyer</text>
+<text x="30" y="195" class="bline">offer_id, cited claims</text>
+<text x="30" y="212" class="bline">All-inclusive price</text>
+</svg>
+  <table>
+    <tr><th>Failure mode</th><th>How FairDeal AI blocks it</th></tr>
+    <tr><td style='width:38%'>Below-cost or below-policy deal</td><td>Hard floor per unit = max(margin floor, list × (1 − max discount)), rounded up. The guard re-checks even the engine&#x27;s own output.</td></tr>
+<tr><td style='width:38%'>Anchoring on a fake budget or competitor quote</td><td>Claims are logged and answered, never priced. A budget below the floor gets in-stock alternatives instead of a discount.</td></tr>
+<tr><td style='width:38%'>Prompt injection (text, hidden JSON fields, HTML comments, Unicode look-alikes)</td><td>Unicode is normalised and every field is scanned. Nothing from buyer text reaches the pricing code.</td></tr>
+<tr><td style='width:38%'>Spoofed “seller:” or “system” messages</td><td>Flagged and treated as buyer input.</td></tr>
+<tr><td style='width:38%'>Fake “I accept ₹X”</td><td>A deal closes only at a price we actually offered, by offer_id or price.</td></tr>
+<tr><td style='width:38%'>Fake lowball to farm a concession; item swap to reset</td><td>Buyer moves are measured from their best earlier offer. Concession progress survives a basket change.</td></tr>
+<tr><td style='width:38%'>Deadlock</td><td>Final offer on round 9; the agent must accept or walk away on round 10.</td></tr>
+<tr><td style='width:38%'>Invented scarcity, urgency, hidden fees</td><td>Banned phrases, no buyer numbers restated, and a number-by-number truth check on every reply.</td></tr>
+  </table>
+  <h2>Fairness and red-team</h2>
+  <p>Price depends only on the basket, the round and the buyer's offers. On 200 paired buyers with identical offers but different words, ids and hidden fields, 200 got identical prices. A red-team suite runs 22 named attacks, each beside an honest twin making the same offers: 22 of 22 defeated, manipulation gain 0.</p>
+  <h2>Testing and ablation</h2>
+  <p>21 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. An independent scorer re-reads the store and policy files itself, so a guard bug can't hide. Switching rules off one at a time shows the firm-offer rule lifts the score against holdout buyers from 0.50 to 0.61. It also caught an early walk-away rule that lost every last-minute buyer, which we removed.</p>
+  <h2>Deployment, latency and cost</h2>
+  <p>A small web API (<span class="sans">POST /negotiate</span>, one session per negotiation) ships as a Docker image. Measured: 0.13 ms per turn in-process (p99 0.24 ms) and 128 full negotiations per second over HTTP from one process. On an AWS t3.small in Mumbai at $0.0224/hour, that is about $0.05 of server time per million negotiations, with no model calls on the core path.</p>
+</section></body></html>

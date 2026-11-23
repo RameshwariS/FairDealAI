@@ -1,0 +1,92 @@
+sku,name,category,price,cost,stock
+P001,Wireless Earbuds,electronics,9109,6582.41,1
+P002,Bluetooth Speaker,electronics,20799,14852.97,35
+P003,Smart Watch,electronics,6549,4668.73,3
+P004,Power Bank 20000mAh,electronics,3629,2771.39,1
+P005,USB-C Hub,electronics,23769,18886.7,0
+P006,Mechanical Keyboard,electronics,15059,11437.34,0
+P007,Wireless Mouse,electronics,14579,10496.53,35
+P008,Webcam 1080p,electronics,4269,3185.84,2
+P009,Noise Cancelling Headphones,electronics,3919,3079.08,1
+P010,Portable SSD 1TB,electronics,14369,10193.63,0
+P011,Fitness Band,electronics,6339,5084.26,8
+P012,Action Camera,electronics,12439,10430.3,3
+P013,Smart Plug,electronics,20169,16233.0,50
+P014,LED Desk Lamp,electronics,8559,6626.96,20
+P015,Router AX1800,electronics,8269,7004.06,12
+P016,Running Shoes,apparel,989,413.81,12
+P017,Cotton T-Shirt,apparel,539,260.68,50
+P018,Denim Jacket,apparel,3239,1663.78,8
+P019,Track Pants,apparel,2539,1183.12,1
+P020,Hoodie,apparel,3799,1689.87,0
+P021,Formal Shirt,apparel,3029,1247.71,20
+P022,Kurta,apparel,1419,606.14,0
+P023,Sports Socks (3 pack),apparel,3789,1595.52,20
+P024,Rain Jacket,apparel,609,306.72,3
+P025,Cap,apparel,1829,975.52,2
+P026,Leather Belt,apparel,2019,928.51,12
+P027,Sneakers,apparel,3509,1423.55,8
+P028,Sandals,apparel,2859,1218.19,1
+P029,Polo T-Shirt,apparel,1029,407.89,20
+P030,Windcheater,apparel,3389,1309.74,2
+P031,Steel Water Bottle,home,3529,1848.67,2
+P032,Non-stick Pan,home,5619,3107.86,0
+P033,Pressure Cooker 5L,home,3819,2383.8,35
+P034,Bedsheet Set,home,3319,1758.39,12
+P035,Cushion Covers (5),home,779,361.04,2
+P036,Wall Clock,home,1149,655.1,50
+P037,Table Lamp,home,1459,686.16,0
+P038,Storage Box Set,home,839,412.44,5
+P039,Dinner Set,home,7659,4369.12,1
+P040,Electric Kettle,home,6839,4435.92,20
+P041,Mixer Grinder,home,2699,1292.34,5
+P042,Curtains (2),home,3989,2347.17,3
+P043,Doormat,home,7619,4233.51,35
+P044,Lunch Box,home,7339,4415.35,1
+P045,Bath Towel Set,home,5659,2842.08,2
+P046,Python Crash Course,books,519,308.58,35
+P047,Atomic Habits,books,499,296.71,3
+P048,The Psychology of Money,books,999,712.95,3
+P049,Clean Code,books,359,232.83,0
+P050,Deep Work,books,979,630.91,50
+P051,Sapiens,books,1149,734.72,8
+P052,Ikigai,books,1149,715.74,3
+P053,Wings of Fire,books,639,394.61,50
+P054,Designing Data-Intensive Applications,books,1029,664.63,1
+P055,The Alchemist,books,1029,590.63,3
+P056,Rich Dad Poor Dad,books,649,380.12,8
+P057,Thinking Fast and Slow,books,239,176.68,20
+P058,Yoga Mat,sports,3789,2611.98,2
+P059,Cricket Bat,sports,8939,4518.75,20
+P060,Football,sports,7319,3873.47,20
+P061,Badminton Racket,sports,6019,3431.32,2
+P062,Dumbbell Set 10kg,sports,489,322.68,1
+P063,Skipping Rope,sports,4879,3350.53,3
+P064,Cycling Helmet,sports,7489,4060.6,5
+P065,Tennis Balls (3),sports,4659,3041.1,35
+P066,Resistance Bands,sports,3949,2078.02,8
+P067,Gym Bag,sports,8109,5128.9,35
+P068,Table Tennis Set,sports,3959,2706.15,35
+P069,Shuttlecocks (6),sports,1619,974.82,2
+P070,Face Wash,beauty,1579,718.77,2
+P071,Sunscreen SPF50,beauty,1259,560.3,8
+P072,Hair Dryer,beauty,1749,710.35,1
+P073,Beard Trimmer,beauty,2229,694.03,0
+P074,Moisturiser,beauty,1959,786.62,1
+P075,Lip Balm Pack,beauty,1189,502.36,35
+P076,Shampoo 650ml,beauty,619,220.02,20
+P077,Perfume 100ml,beauty,1339,468.02,5
+P078,Hair Straightener,beauty,2319,1109.76,20
+P079,Aloe Vera Gel,beauty,469,152.11,1
+P080,Body Lotion,beauty,1729,666.82,5
+P081,Face Serum,beauty,1989,953.54,8
+P082,Basmati Rice 5kg,grocery,279,246.2,3
+P083,Cold Pressed Groundnut Oil 1L,grocery,1139,870.33,2
+P084,Almonds 500g,grocery,1489,1302.68,12
+P085,Green Tea (100 bags),grocery,1489,1206.94,8
+P086,Dark Chocolate Pack,grocery,529,454.05,0
+P087,Organic Honey 500g,grocery,869,709.16,0
+P088,Coffee Beans 250g,grocery,549,463.13,1
+P089,Dry Fruit Mix 1kg,grocery,239,212.18,1
+P090,Masala Chai Mix,grocery,199,157.37,2
+P091,Peanut Butter 1kg,grocery,459,353.17,5

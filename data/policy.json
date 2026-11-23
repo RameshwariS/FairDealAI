@@ -1,0 +1,12 @@
+{
+  "min_margin": {
+    "electronics": 0.08,
+    "apparel": 0.25,
+    "home": 0.18,
+    "books": 0.12,
+    "sports": 0.18,
+    "beauty": 0.25,
+    "grocery": 0.06
+  },
+  "max_discount": 0.25
+}

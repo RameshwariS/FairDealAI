@@ -1,0 +1,27 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Safety tests (policy, manipulation, fairness, fuzz, red-team)
+        run: python -m pytest tests -q
+      - name: Red-team report
+        run: python -m harness.redteam
+      - name: Benchmark (must keep 0 violations and 0 false claims)
+        run: |
+          python benchmark.py
+          python -c "import json,sys; r=json.load(open('outputs/results.json'))['fairdeal']; sys.exit(r['policy_violations'] or r['truthfulness_errors'])"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: outputs/*.md

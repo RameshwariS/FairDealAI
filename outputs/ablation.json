@@ -1,0 +1,299 @@
+[
+  {
+    "variant": "Full agent",
+    "deal_rate_x_margin_kept": 0.418,
+    "profit_captured_of_max": 0.413,
+    "deal_rate": 0.5696666666666667,
+    "margin_kept": 0.7333333333333333,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01639105447085899,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "No firm-offer rule (meet a held offer halfway, then take it)",
+    "deal_rate_x_margin_kept": 0.4136666666666667,
+    "profit_captured_of_max": 0.4083333333333333,
+    "deal_rate": 0.5609999999999999,
+    "margin_kept": 0.7366666666666667,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.015520595635763745,
+    "stress": {
+      "holdout": {
+        "score": 0.4988965311027412,
+        "deal_rate": 0.7733333333333333,
+        "avg_rounds": 7.5
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "No reciprocity (ignore how much the buyer moved)",
+    "deal_rate_x_margin_kept": 0.4156666666666667,
+    "profit_captured_of_max": 0.41333333333333333,
+    "deal_rate": 0.5663333333333334,
+    "margin_kept": 0.7346666666666667,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.017556258776351582,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.98
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "No minimum concession per round",
+    "deal_rate_x_margin_kept": 0.4176666666666667,
+    "profit_captured_of_max": 0.413,
+    "deal_rate": 0.5693333333333334,
+    "margin_kept": 0.7333333333333333,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.015965240019770722,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "No late accept (rounds 9-10)",
+    "deal_rate_x_margin_kept": 0.418,
+    "profit_captured_of_max": 0.413,
+    "deal_rate": 0.5696666666666667,
+    "margin_kept": 0.7333333333333333,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01639105447085899,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "No final best offer on round 9",
+    "deal_rate_x_margin_kept": 0.418,
+    "profit_captured_of_max": 0.413,
+    "deal_rate": 0.5696666666666667,
+    "margin_kept": 0.7333333333333333,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01639105447085899,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "Stall rule on: final offer after 3 frozen rounds",
+    "deal_rate_x_margin_kept": 0.418,
+    "profit_captured_of_max": 0.413,
+    "deal_rate": 0.5696666666666667,
+    "margin_kept": 0.7333333333333333,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01639105447085899,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.4589888044933632,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "Stall rule on + walk away early (first version)",
+    "deal_rate_x_margin_kept": 0.418,
+    "profit_captured_of_max": 0.413,
+    "deal_rate": 0.5696666666666667,
+    "margin_kept": 0.7333333333333333,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01639105447085899,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 5.0
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 5.0
+      }
+    }
+  },
+  {
+    "variant": "No small-gap close",
+    "deal_rate_x_margin_kept": 0.4186666666666667,
+    "profit_captured_of_max": 0.41333333333333333,
+    "deal_rate": 0.5696666666666667,
+    "margin_kept": 0.734,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01677961726487095,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 5.0
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "Linear concession instead of Boulware",
+    "deal_rate_x_margin_kept": 0.4206666666666667,
+    "profit_captured_of_max": 0.416,
+    "deal_rate": 0.5896666666666667,
+    "margin_kept": 0.713,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.01592342788332824,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.906666666666666
+      },
+      "last_minute": {
+        "score": 0.5108377376083133,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  },
+  {
+    "variant": "No bundle opening discount",
+    "deal_rate_x_margin_kept": 0.419,
+    "profit_captured_of_max": 0.4176666666666667,
+    "deal_rate": 0.5626666666666666,
+    "margin_kept": 0.744,
+    "deadlock_rate": 0.0,
+    "policy_violations": 0,
+    "score_sd": 0.016753109164172077,
+    "stress": {
+      "holdout": {
+        "score": 0.6092414962248188,
+        "deal_rate": 1.0,
+        "avg_rounds": 4.966666666666667
+      },
+      "last_minute": {
+        "score": 0.5329151269361381,
+        "deal_rate": 0.9933333333333333,
+        "avg_rounds": 9.006666666666666
+      },
+      "staller": {
+        "score": 0.0,
+        "deal_rate": 0.0,
+        "avg_rounds": 10.0
+      }
+    }
+  }
+]

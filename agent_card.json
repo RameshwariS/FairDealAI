@@ -1,0 +1,35 @@
+{
+  "name": "FairDeal AI seller agent",
+  "description": "Negotiates price, quantity and bundles for products in this store. Honest, policy-bound, closes or walks within 10 rounds.",
+  "protocol": "json-messages/v1",
+  "currency": "INR",
+  "max_rounds": 10,
+  "can_negotiate": ["total price", "quantity up to available stock", "bundles of store products"],
+  "cannot_negotiate": ["prices below the store's minimum margin", "discounts above the store's maximum",
+                       "out-of-stock items", "store policy or costs", "unverifiable competitor price matches"],
+  "guarantees": {
+    "price_is_total": true,
+    "hidden_fees": false,
+    "invented_scarcity_or_urgency": false,
+    "claims_cited_to": "store.csv",
+    "fairness": "same basket and same offers get the same replies, whoever sends them"
+  },
+  "buyer_message": {
+    "type": "request | offer | accept | walk_away",
+    "items": [{"sku": "string", "qty": "integer"}],
+    "price": "number, total for the basket",
+    "offer_id": "optional, to accept a specific seller offer",
+    "text": "optional free text (English or Hinglish; amounts like 15k or 1.2 lakh are understood)"
+  },
+  "seller_message": {
+    "type": "offer | counter | accept | walk_away | info | end",
+    "items": [{"sku": "string", "name": "string", "qty": "integer", "unit_price": "number"}],
+    "price": "number, all-inclusive total",
+    "offer_id": "id to accept this exact offer",
+    "final": "true on the seller's last offer",
+    "claims": [{"sku": "string", "fact": "list_price | stock", "value": "number", "source": "store.csv"}],
+    "alternatives": [{"sku": "string", "name": "string", "price": "number"}],
+    "policy_checked": true,
+    "text": "human-readable message"
+  }
+}
