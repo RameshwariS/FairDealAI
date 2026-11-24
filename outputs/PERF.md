@@ -4,20 +4,20 @@ Measured on the development machine (one Python process, no model calls). A diff
 
 | Path | Turns timed | Mean (ms) | p50 (ms) | p95 (ms) | p99 (ms) |
 |---|---|---|---|---|---|
-| In-process (agent only) | 5,629 | 0.133 | 0.128 | 0.192 | 0.236 |
-| Over HTTP, 8 concurrent clients | 2,239 | 9.126 | 6.663 | 9.574 | 11.637 |
+| In-process (agent only) | 5,558 | 0.116 | 0.110 | 0.175 | 0.231 |
+| Over HTTP, 8 concurrent clients | 2,237 | 8.882 | 6.539 | 10.057 | 13.195 |
 
 Average turns per negotiation: 5.6.
 
-HTTP throughput: **128 full negotiations per second** (714 turns per second) from one server process. The test clients ran in the same process and shared its CPU, so this is a conservative figure.
+HTTP throughput: **139 full negotiations per second** (776 turns per second) from one server process. The test clients ran in the same process and shared its CPU, so this is a conservative figure.
 
 ## Cost
 
 | Item | Value |
 |---|---|
 | Server | AWS t3.small, Mumbai, on-demand at $0.0224/hour |
-| Server time for 1 million negotiations | 130.6 minutes |
-| Compute cost per 1 million negotiations | **$0.0488** |
+| Server time for 1 million negotiations | 120.1 minutes |
+| Compute cost per 1 million negotiations | **$0.0448** |
 | Server cost for a month, always on | $16.35 |
 | LLM calls on the core path | 0 |
 

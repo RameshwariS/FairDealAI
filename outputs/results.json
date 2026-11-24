@@ -1,12 +1,12 @@
 {
   "fairdeal": {
     "negotiations": 200,
-    "deal_rate": 0.5,
-    "deal_rate_when_deal_possible": 0.781,
-    "margin_kept": 0.745,
-    "deal_rate_x_margin_kept": 0.372,
-    "profit_captured_of_max": 0.325,
-    "avg_rounds_to_deal": 5.6,
+    "deal_rate": 0.485,
+    "deal_rate_when_deal_possible": 0.746,
+    "margin_kept": 0.775,
+    "deal_rate_x_margin_kept": 0.376,
+    "profit_captured_of_max": 0.379,
+    "avg_rounds_to_deal": 5.96,
     "policy_violations": 0,
     "below_cost_deals": 0,
     "deadlock_rate": 0.0,
@@ -14,25 +14,25 @@
     "by_buyer": {
       "cooperative": {
         "n": 34,
-        "deal_rate": 0.529,
+        "deal_rate": 0.676,
         "violations": 0,
         "deadlocks": 0
       },
       "hard_bargainer": {
         "n": 30,
-        "deal_rate": 0.567,
+        "deal_rate": 0.533,
         "violations": 0,
         "deadlocks": 0
       },
       "manipulator": {
         "n": 31,
-        "deal_rate": 0.613,
+        "deal_rate": 0.742,
         "violations": 0,
         "deadlocks": 0
       },
       "persona": {
         "n": 105,
-        "deal_rate": 0.438,
+        "deal_rate": 0.333,
         "violations": 0,
         "deadlocks": 0
       }
@@ -42,66 +42,66 @@
     "negotiations": 200,
     "deal_rate": 1.0,
     "deal_rate_when_deal_possible": 1.0,
-    "margin_kept": 0.031,
-    "deal_rate_x_margin_kept": 0.031,
-    "profit_captured_of_max": 0.074,
+    "margin_kept": 0.287,
+    "deal_rate_x_margin_kept": 0.287,
+    "profit_captured_of_max": 0.341,
     "avg_rounds_to_deal": 2.67,
-    "policy_violations": 298,
-    "below_cost_deals": 69,
+    "policy_violations": 314,
+    "below_cost_deals": 36,
     "deadlock_rate": 0.0,
     "truthfulness_errors": 0,
     "by_buyer": {
       "cooperative": {
         "n": 34,
         "deal_rate": 1.0,
-        "violations": 19,
+        "violations": 18,
         "deadlocks": 0
       },
       "hard_bargainer": {
         "n": 30,
         "deal_rate": 1.0,
-        "violations": 65,
+        "violations": 67,
         "deadlocks": 0
       },
       "manipulator": {
         "n": 31,
         "deal_rate": 1.0,
-        "violations": 65,
+        "violations": 62,
         "deadlocks": 0
       },
       "persona": {
         "n": 105,
         "deal_rate": 1.0,
-        "violations": 149,
+        "violations": 167,
         "deadlocks": 0
       }
     }
   },
   "fairdeal_per_buyer": {
     "cooperative": {
-      "deal_rate": 0.54,
-      "margin_kept": 0.769,
+      "deal_rate": 0.62,
+      "margin_kept": 0.8,
       "policy_violations": 0,
       "deadlock_rate": 0.0,
       "truthfulness_errors": 0
     },
     "hard_bargainer": {
-      "deal_rate": 0.54,
-      "margin_kept": 0.668,
+      "deal_rate": 0.62,
+      "margin_kept": 0.716,
       "policy_violations": 0,
       "deadlock_rate": 0.0,
       "truthfulness_errors": 0
     },
     "manipulator": {
-      "deal_rate": 0.54,
-      "margin_kept": 0.636,
+      "deal_rate": 0.62,
+      "margin_kept": 0.687,
       "policy_violations": 0,
       "deadlock_rate": 0.0,
       "truthfulness_errors": 0
     },
     "persona": {
-      "deal_rate": 0.38,
-      "margin_kept": 0.811,
+      "deal_rate": 0.35,
+      "margin_kept": 0.861,
       "policy_violations": 0,
       "deadlock_rate": 0.0,
       "truthfulness_errors": 0

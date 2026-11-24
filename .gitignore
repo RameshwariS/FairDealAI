@@ -2,3 +2,9 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .env
+.venv/
+
+# Local LLM harness output
+outputs/llm_run.jsonl
+outputs/llm_eval.txt
+outputs/official_eval.txt

@@ -47,16 +47,16 @@ Registration and Round 1 submission close at the same time. Only the **team lead
 
 9. Install Ollama and pull a model.
    ```bash
-   ollama pull llama3.1:8b
-   export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.1:8b
+   ollama pull llama3.2:latest
+   export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.2:latest
    python -m harness.llm_buyer --n 30 --out outputs/llm_run.jsonl
    python -m harness.evaluate outputs/llm_run.jsonl > outputs/llm_eval.txt
    ```
 10. **Tune to the official scoring.** Open the kit's `evaluate.py` and find how it combines deal rate, margin, deadlocks and violations. Write that as a formula, then search for the best settings:
     ```bash
     python tune.py --objective "deal_rate * margin_kept - 2 * deadlock_rate"          # your formula here
-    python tune.py --buyers llm persona --n 20 --seeds 1 --objective "..."           # include LLM buyers (slow)
-    python tune.py --objective "..." --apply                                         # save the winner to data/params.json
+    python tune.py --buyers llm persona --n 20 --seeds 1 --objective "deal_rate * margin_kept - 2 * deadlock_rate"  # include LLM buyers (slow)
+    python tune.py --objective "deal_rate * margin_kept - 2 * deadlock_rate" --apply                          # save winner to data/params.json
     ```
     Or score with their script directly: `--score-cmd "python ../ps2-selling-to-machines/evaluate.py --log {log}"` (it uses the last number the script prints; adjust to how their script takes input). After `--apply`, re-run step 8.
 11. Read a few of the logs (`outputs/llm_run.jsonl`), or add them to the replay page. Look for:

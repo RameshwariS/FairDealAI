@@ -4,17 +4,17 @@
 
 | Variant | Score | Change vs full | Profit captured | Deal rate | Margin kept | Deadlocks |
 |---|---|---|---|---|---|---|
-| Full agent | 0.418 ± 0.016 | – | 0.413 | 0.570 | 0.733 | 0.0% |
-| No firm-offer rule (meet a held offer halfway, then take it) | 0.414 ± 0.016 | -0.004 | 0.408 | 0.561 | 0.737 | 0.0% |
-| No reciprocity (ignore how much the buyer moved) | 0.416 ± 0.018 | -0.002 | 0.413 | 0.566 | 0.735 | 0.0% |
-| No minimum concession per round | 0.418 ± 0.016 | -0.000 | 0.413 | 0.569 | 0.733 | 0.0% |
-| No late accept (rounds 9-10) | 0.418 ± 0.016 | +0.000 | 0.413 | 0.570 | 0.733 | 0.0% |
-| No final best offer on round 9 | 0.418 ± 0.016 | +0.000 | 0.413 | 0.570 | 0.733 | 0.0% |
-| Stall rule on: final offer after 3 frozen rounds | 0.418 ± 0.016 | +0.000 | 0.413 | 0.570 | 0.733 | 0.0% |
-| Stall rule on + walk away early (first version) | 0.418 ± 0.016 | +0.000 | 0.413 | 0.570 | 0.733 | 0.0% |
-| No small-gap close | 0.419 ± 0.017 | +0.001 | 0.413 | 0.570 | 0.734 | 0.0% |
-| Linear concession instead of Boulware | 0.421 ± 0.016 | +0.003 | 0.416 | 0.590 | 0.713 | 0.0% |
-| No bundle opening discount | 0.419 ± 0.017 | +0.001 | 0.418 | 0.563 | 0.744 | 0.0% |
+| Full agent | 0.416 ± 0.004 | – | 0.438 | 0.531 | 0.784 | 0.0% |
+| No firm-offer rule (meet a held offer halfway, then take it) | 0.411 ± 0.005 | -0.005 | 0.433 | 0.522 | 0.786 | 0.0% |
+| No reciprocity (ignore how much the buyer moved) | 0.414 ± 0.004 | -0.002 | 0.437 | 0.528 | 0.784 | 0.0% |
+| No minimum concession per round | 0.416 ± 0.004 | +0.000 | 0.438 | 0.531 | 0.784 | 0.0% |
+| No late accept (rounds 9-10) | 0.416 ± 0.004 | +0.000 | 0.438 | 0.531 | 0.784 | 0.0% |
+| No final best offer on round 9 | 0.416 ± 0.004 | +0.000 | 0.438 | 0.531 | 0.784 | 0.0% |
+| Stall rule on: final offer after 3 frozen rounds | 0.416 ± 0.004 | +0.000 | 0.438 | 0.531 | 0.784 | 0.0% |
+| Stall rule on + walk away early (first version) | 0.416 ± 0.004 | +0.000 | 0.438 | 0.531 | 0.784 | 0.0% |
+| No small-gap close | 0.416 ± 0.004 | -0.000 | 0.438 | 0.530 | 0.784 | 0.0% |
+| Linear concession instead of Boulware | 0.423 ± 0.004 | +0.007 | 0.445 | 0.551 | 0.768 | 0.0% |
+| No bundle opening discount | 0.415 ± 0.005 | -0.001 | 0.441 | 0.524 | 0.793 | 0.0% |
 
 ± is the spread across seeds. On this mix most rules change little: the time curve and the walk-away do most of the work, and the other rules rarely fire.
 
@@ -24,21 +24,21 @@
 
 | Variant | Holdout score | Last-minute score | Staller rounds |
 |---|---|---|---|
-| Full agent | 0.609 | 0.533 | 10.0 |
-| No firm-offer rule (meet a held offer halfway, then take it) | 0.499 | 0.533 | 10.0 |
-| No reciprocity (ignore how much the buyer moved) | 0.609 | 0.533 | 10.0 |
-| No minimum concession per round | 0.609 | 0.533 | 10.0 |
-| No late accept (rounds 9-10) | 0.609 | 0.533 | 10.0 |
-| No final best offer on round 9 | 0.609 | 0.533 | 10.0 |
-| Stall rule on: final offer after 3 frozen rounds | 0.609 | 0.459 | 10.0 |
-| Stall rule on + walk away early (first version) | 0.609 | 0.000 | 5.0 |
-| No small-gap close | 0.609 | 0.533 | 10.0 |
-| Linear concession instead of Boulware | 0.609 | 0.511 | 10.0 |
-| No bundle opening discount | 0.609 | 0.533 | 10.0 |
+| Full agent | 0.697 | 0.642 | 10.0 |
+| No firm-offer rule (meet a held offer halfway, then take it) | 0.566 | 0.642 | 10.0 |
+| No reciprocity (ignore how much the buyer moved) | 0.697 | 0.642 | 10.0 |
+| No minimum concession per round | 0.697 | 0.642 | 10.0 |
+| No late accept (rounds 9-10) | 0.697 | 0.642 | 10.0 |
+| No final best offer on round 9 | 0.697 | 0.642 | 10.0 |
+| Stall rule on: final offer after 3 frozen rounds | 0.697 | 0.587 | 10.0 |
+| Stall rule on + walk away early (first version) | 0.697 | 0.000 | 5.0 |
+| No small-gap close | 0.697 | 0.642 | 10.0 |
+| Linear concession instead of Boulware | 0.697 | 0.626 | 10.0 |
+| No bundle opening discount | 0.697 | 0.642 | 10.0 |
 
 Score = deal rate × margin kept.
 
-**Reading it:** the firm-offer rule is what closes holdouts (0.50 → 0.61). The stall rule, which we first shipped, cost every last-minute deal, so it is now off. Late accept and the round-9 final offer changed no outcome in any of our tests (reciprocity already closes these deals); they stay as zero-cost safety nets.
+**Reading it:** the firm-offer rule is what closes holdouts (0.57 → 0.70). The stall rule, which we first shipped, cost every last-minute deal, so it is now off. Late accept and the round-9 final offer changed no outcome in any of our tests (reciprocity already closes these deals); they stay as zero-cost safety nets.
 
 ## Tried and dropped
 
