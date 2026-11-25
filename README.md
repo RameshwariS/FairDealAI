@@ -101,6 +101,7 @@ tune.py                            settings search against any scoring formula
 docs/build_pdfs.py                 designed abstract + architecture PDFs from outputs/
 docs/video/make_opener.py          animated 14-second video intro
 docs/video/make_replay_clip.py     animated replay of a real run (mid-video clip)
+harness/showcase.py                picks demo products from the loaded store; prints the live-demo lines
 demo.py, benchmark.py, STEPS.md
 ```
 
