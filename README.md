@@ -1,6 +1,6 @@
 # FairDeal AI: honest bargaining for machine buyers
 
-![tests](https://github.com/<your-username>/fairdeal/actions/workflows/tests.yml/badge.svg)
+![tests](https://github.com/<RameshwariS>/fairdeal/actions/workflows/tests.yml/badge.svg)
 
 Submission for **AgentX Challenge 2: Selling to Machines** (Techfest 2026-27, IIT Bombay).
 
