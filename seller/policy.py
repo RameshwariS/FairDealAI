@@ -44,7 +44,11 @@ class PolicyGuard:
         on_cost = p.cost * (1 + m)
         margin_floor = {"price": on_price, "cost": on_cost}.get(basis, max(on_price, on_cost))
         discount_floor = p.price * (1 - self.policy.discount_for(p.category))
-        return ceil2(max(margin_floor, discount_floor) * (1 + self.safety))
+        exact = max(margin_floor, discount_floor) * (1 + self.safety)
+        f = ceil2(exact)
+        while f < exact:  # e.g. 637 / 0.7 = 910.0000000000001 in floating point: ₹910.00 would be below it
+            f = round(f + 0.01, 2)
+        return f
 
     def available(self, p: Product) -> int:
         return max(0, p.stock - self.sold.get(p.sku, 0))

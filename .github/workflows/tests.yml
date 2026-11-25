@@ -15,6 +15,12 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Safety tests (policy, manipulation, fairness, fuzz, red-team)
         run: python -m pytest tests -q
+      - name: Official starter-kit score (must keep 0 policy and truth violations)
+        run: |
+          cd ps2-selling-to-machines
+          python evaluate.py --seller ../fairdeal_seller.py | tee ../outputs/official_eval.txt
+          grep -E "^policy violations +0" ../outputs/official_eval.txt
+          grep -E "^truth violations +0" ../outputs/official_eval.txt
       - name: Red-team report
         run: python -m harness.redteam
       - name: Benchmark (must keep 0 violations and 0 false claims)

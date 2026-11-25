@@ -57,8 +57,11 @@ td.us { font-weight: 600; color: var(--ink); }
 .pipe .conn { fill: none; stroke: #7C83A0; stroke-width: 1.3; }
 .pipe .arrowhead { fill: #7C83A0; }
 .pipe .pin, .pipe .pnote { font: 500 11.5px "Fira Sans"; fill: var(--mute); }
-.arch p { font-size: 9.5pt; line-height: 1.45; margin-bottom: 5pt; }
-.arch h2 { margin-top: 9pt; }
+.arch p { font-size: 9.3pt; line-height: 1.42; margin-bottom: 4pt; }
+.arch table { font-size: 8.6pt; }
+.arch td { padding-top: 2.6pt; padding-bottom: 2.6pt; }
+.arch .pipe { width: 88%; margin: 0 auto 2pt; }
+.arch h2 { margin-top: 7pt; }
 .lead { font-weight: 600; color: var(--ink); }
 </style></head><body>
 <section class="page arch">
@@ -104,19 +107,20 @@ td.us { font-weight: 600; color: var(--ink); }
 </svg>
   <table>
     <tr><th>Failure mode</th><th>How FairDeal AI blocks it</th></tr>
-    <tr><td style='width:38%'>Below-cost or below-policy deal</td><td>Hard floor per unit = max(margin floor, list × (1 − max discount)), rounded up. The guard re-checks even the engine&#x27;s own output.</td></tr>
-<tr><td style='width:38%'>Anchoring on a fake budget or competitor quote</td><td>Claims are logged and answered, never priced. A budget below the floor gets in-stock alternatives instead of a discount.</td></tr>
-<tr><td style='width:38%'>Prompt injection (text, hidden JSON fields, HTML comments, Unicode look-alikes)</td><td>Unicode is normalised and every field is scanned. Nothing from buyer text reaches the pricing code.</td></tr>
-<tr><td style='width:38%'>Spoofed “seller:” or “system” messages</td><td>Flagged and treated as buyer input.</td></tr>
-<tr><td style='width:38%'>Fake “I accept ₹X”</td><td>A deal closes only at a price we actually offered, by offer_id or price.</td></tr>
-<tr><td style='width:38%'>Fake lowball to farm a concession; item swap to reset</td><td>Buyer moves are measured from their best earlier offer. Concession progress survives a basket change.</td></tr>
-<tr><td style='width:38%'>Deadlock</td><td>Final offer on round 9; the agent must accept or walk away on round 10.</td></tr>
-<tr><td style='width:38%'>Invented scarcity, urgency, hidden fees</td><td>Banned phrases, no buyer numbers restated, and a number-by-number truth check on every reply.</td></tr>
+    <tr><td style='width:38%'>Below-cost or below-policy deal</td><td>Per-unit floor = max(margin floor, list × (1 − max discount)), rounded up; the guard re-checks even the engine&#x27;s output.</td></tr>
+<tr><td style='width:38%'>Accepting a bid with a slipped-in ₹1, out-of-stock or over-stock line</td><td>An accept is sent only if every line of the buyer&#x27;s exact bid passes policy; otherwise we offer their total split safely.</td></tr>
+<tr><td style='width:38%'>Fake budgets, competitor quotes, “manager approval”</td><td>Logged and answered, never priced; prices written in buyer text are never read as bids.</td></tr>
+<tr><td style='width:38%'>Prompt injection (text, hidden fields, Unicode look-alikes, spoofed “SYSTEM”)</td><td>Unicode is normalised and every field scanned; nothing from buyer text reaches pricing.</td></tr>
+<tr><td style='width:38%'>Fake “you already agreed to ₹X”</td><td>A deal closes only at a price we actually offered.</td></tr>
+<tr><td style='width:38%'>Deadlock</td><td>Round 9 offer at the buyer&#x27;s projected limit; round 10 must accept, make a last offer the buyer can reach, or walk away.</td></tr>
+<tr><td style='width:38%'>Invented scarcity, urgency, fees; unsupported numbers</td><td>Banned phrases, no prices for products not in play, and a number-by-number truth check plus TraceWare.</td></tr>
   </table>
   <h2>Fairness and red-team</h2>
-  <p>Price depends only on the basket, the round and the buyer's offers. On 200 paired buyers with identical offers but different words, ids and hidden fields, 200 got identical prices. A red-team suite runs 22 named attacks, each beside an honest twin making the same offers: 22 of 22 defeated, manipulation gain 0.</p>
+  <p>Price depends only on the basket, the round and the buyer's offers: 200 of 200 buyer pairs with identical offers but different words got identical prices. 22 of 22 named attacks defeated, each run beside an honest twin making the same offers (manipulation gain 0).</p>
   <h2>Testing and ablation</h2>
-  <p>21 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. An independent scorer re-reads the store and policy files itself, so a guard bug can't hide. Switching rules off one at a time shows the firm-offer rule lifts the score against holdout buyers from 0.57 to 0.70. It also caught an early walk-away rule that lost every last-minute buyer, which we removed.</p>
+  <p>23 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. The kit's evaluate.py found two bugs our own tests had missed (a floating-point floor and stock booked for an accept we then blocked); both are fixed, with 0 violations across 1,470 official negotiations. An ablation study removed a walk-away rule that lost every last-minute buyer.</p>
+  <h2>Rezolve Labs capability used</h2>
+  <p><b class="lead">TraceWare commerce claim verification.</b> For every offer and accept, the seller records one <span class="sans">add_to_basket</span> action per line (SKU, name, quantity, unit price) and sends the reply text with those actions to TraceWare before replying. PASS or WARN replies go out as written; REGENERATE or BLOCK replies are replaced with a plain sentence built from the same actions. It runs alongside our own deterministic truth check, so a claim must satisfy two independent verifiers (<span class="sans">seller/traceware.py</span>).</p>
   <h2>Deployment, latency and cost</h2>
-  <p>A small web API (<span class="sans">POST /negotiate</span>, one session per negotiation) ships as a Docker image. Measured: 0.11 ms per turn in-process (p99 0.23 ms) and 139 full negotiations per second over HTTP from one process. On an AWS t3.small in Mumbai at $0.0224/hour, that is about $0.04 of server time per million negotiations, with no model calls on the core path.</p>
+  <p>A web API (<span class="sans">POST /negotiate</span>) ships as a Docker image. The core path makes no model calls: 0.11 ms per turn (p99 0.23 ms), 139 negotiations per second over HTTP, about $0.04 of AWS t3.small time per million negotiations. TraceWare adds one network call per offer.</p>
 </section></body></html>

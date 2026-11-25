@@ -20,10 +20,12 @@ sys.path.insert(0, str(ROOT))
 OUT = ROOT / "outputs/pdf"
 
 # ---- edit these before the final build ----------------------------------------------------------
-OFFICIAL_LINE = ""
+OFFICIAL_LINE = "The leaderboard uses hidden LLM buyers; these runs use the kit's rule-based bots."
 REPO_URL = "github.com/RameshwariS/FairDealAI"
 # --------------------------------------------------------------------------------------------------
 
+OFF = json.loads((ROOT / "outputs/official_results.json").read_text())  # docs/official_results.py
+OD, OB, OS = OFF["fairdeal"]["0"], OFF["baseline"]["0"], OFF["summary"]
 R = json.loads((ROOT / "outputs/results.json").read_text())
 M, N = R["fairdeal"], R["naive"]
 RT = json.loads((ROOT / "outputs/redteam.json").read_text())
@@ -192,8 +194,11 @@ td.us { font-weight: 600; color: var(--ink); }
 .pipe .conn { fill: none; stroke: #7C83A0; stroke-width: 1.3; }
 .pipe .arrowhead { fill: #7C83A0; }
 .pipe .pin, .pipe .pnote { font: 500 11.5px "Fira Sans"; fill: var(--mute); }
-.arch p { font-size: 9.5pt; line-height: 1.45; margin-bottom: 5pt; }
-.arch h2 { margin-top: 9pt; }
+.arch p { font-size: 9.3pt; line-height: 1.42; margin-bottom: 4pt; }
+.arch table { font-size: 8.6pt; }
+.arch td { padding-top: 2.6pt; padding-bottom: 2.6pt; }
+.arch .pipe { width: 88%; margin: 0 auto 2pt; }
+.arch h2 { margin-top: 7pt; }
 .lead { font-weight: 600; color: var(--ink); }
 """
 
@@ -216,43 +221,42 @@ def abstract_html(chart, caption):
   <p>One rule drives the design: AI reads and writes the conversation, but code decides money, because prices need guarantees a language model can't give.</p>
   <div class="cols">
     <div class="pillar"><h3>A hard policy gate</h3><p>Every outgoing price passes a guard that computes each product's floor from minimum margin, maximum discount and stock, always rounding up. Bundle totals are split so every unit stays above its own floor.</p></div>
-    <div class="pillar"><h3>Offers move price, words don't</h3><p>A deterministic engine concedes on a time curve, mirrors only real buyer concessions, meets a buyer holding a feasible offer halfway, and must close or walk away by round 10. Budgets, competitor quotes, deadlines, “manager approval”, spoofed seller messages and hidden prompt injections are flagged and answered politely, but pricing never reads them.</p></div>
-    <div class="pillar"><h3>Built for machine buyers</h3><p>Every offer carries an offer_id to accept by, claims citing each fact to store.csv, and structured alternatives. Replies never restate a buyer's number, and an optional LLM rewrite is discarded if it adds any unsupported number.</p></div>
-    <div class="pillar"><h3>Proven, not claimed</h3><p>A red-team suite runs {RT and len(RT['attacks'])} named attacks, each beside an honest twin making the same offers; the attacker never pays less. {FAIR} buyer pairs with identical offers but different words got identical prices. An ablation study shows what each rule adds; it caught and removed one rule that lost late deals.</p></div>
+    <div class="pillar"><h3>Offers move price, words don't</h3><p>A deterministic engine concedes on a time curve, mirrors real buyer concessions, projects where the buyer is heading, and closes or walks away by round 10. Budgets, competitor quotes, deadlines, “manager approval”, spoofed seller messages and hidden prompt injections are flagged and answered politely, but pricing never reads them.</p></div>
+    <div class="pillar"><h3>Every claim verified twice</h3><p>Every offer carries an offer_id and claims citing store.csv. Before a reply leaves, our own truth check and Rezolve Labs TraceWare both verify it against the basket actions we recorded; a blocked reply is rewritten from those actions.</p></div>
+    <div class="pillar"><h3>Proven, not claimed</h3><p>A red-team suite runs {RT and len(RT['attacks'])} named attacks, each beside an honest twin making the same offers; the attacker never pays less. {FAIR} buyer pairs with identical offers but different words got identical prices. An ablation study removed a rule that lost late deals.</p></div>
   </div>
   <h2>Results</h2>
-  <p>{m['negotiations']} held-out negotiations against four kinds of buyer bots, beside a naive “agreeable” seller on the same scenarios. Margin kept = (price − cost) ÷ (list − cost).</p>
+  <p>Scored by the kit's own evaluate.py (210 negotiations per run). Seeds 0–2 tuned our settings; seeds 3–6 never did.</p>
   <table>
-    <tr><th></th><th class="num">FairDeal AI</th><th class="num">Naive seller</th></tr>
-    <tr><td>Policy violations</td><td class="num us">{m['policy_violations']}</td><td class="num">{N['policy_violations']}</td></tr>
-    <tr><td>Below-cost deals</td><td class="num us">{m['below_cost_deals']}</td><td class="num">{N['below_cost_deals']}</td></tr>
-    <tr><td>Truthfulness errors</td><td class="num us">{m['truthfulness_errors']}</td><td class="num">{N['truthfulness_errors']}</td></tr>
-    <tr><td>Deadlocks</td><td class="num us">{PCT(m['deadlock_rate'])}</td><td class="num">{PCT(N['deadlock_rate'])}</td></tr>
-    <tr><td>Margin kept per deal</td><td class="num us">{PCT(m['margin_kept'])}</td><td class="num">{PCT(N['margin_kept'])}</td></tr>
-    <tr><td>Possible deals closed</td><td class="num us">{PCT(m['deal_rate_when_deal_possible'])}</td><td class="num">{PCT(N['deal_rate_when_deal_possible'])}</td></tr>
+    <tr><th></th><th class="num">FairDeal AI</th><th class="num">Kit example seller</th></tr>
+    <tr><td>Score, default run</td><td class="num us">{OD['score']:.1f}</td><td class="num">{OB['score']:.1f}</td></tr>
+    <tr><td>Score, untouched seeds 3–6 (mean)</td><td class="num us">{OS['held_out_mean_score']['fairdeal']:.1f}</td><td class="num">{OS['held_out_mean_score']['baseline']:.1f}</td></tr>
+    <tr><td>Possible deals closed</td><td class="num us">{PCT(OD['deal_rate_possible'])}</td><td class="num">{PCT(OB['deal_rate_possible'])}</td></tr>
+    <tr><td>Margin kept per deal</td><td class="num us">{PCT(OD['margin_kept'])}</td><td class="num">{PCT(OB['margin_kept'])}</td></tr>
+    <tr><td>Violations, all 7 seeds</td><td class="num us">{OS['violations_all_seeds']}</td><td class="num">0</td></tr>
+    <tr><td>Deadlocks, default run</td><td class="num us">{OD['deadlocks']:.0f}</td><td class="num">{OB['deadlocks']:.0f}</td></tr>
     <tr><td>Red-team attacks defeated</td><td class="num us">{ATTACKS}</td><td class="num">not tested</td></tr>
   </table>
   <p class="note">{html.escape(OFFICIAL_LINE)}</p>
   <h2>Impact</h2>
   <p>Small sellers can open their stores to AI shopping agents without risking margin or trust. It understands Indian buyers (“15k”, “1.2 lakh”, Hinglish), and a replay page shows every decision.</p>
   <h2>Cost estimate</h2>
-  <p>The core path has no model calls: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms). Over HTTP, one process served {P['negotiations_per_second_http']:.0f} full negotiations per second, so a million negotiations take about ${P['usd_per_million_negotiations']:.2f} of server time on an AWS t3.small in Mumbai ($0.0224/hour). It ships as a Docker image with a small web API.</p>
+  <p>The core path has no model calls: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms). Over HTTP, one process served {P['negotiations_per_second_http']:.0f} full negotiations per second, so a million negotiations take about ${P['usd_per_million_negotiations']:.2f} of server time on an AWS t3.small in Mumbai ($0.0224/hour).</p>
   <h2>Build summary</h2>
-  <p>A standard-library Python core, and around it: a 10-round harness, rule-based, randomised and LLM buyer bots, an independent scorer, red-team and ablation suites, a tuning script, CI with 21 tests, and agent cards.</p>
+  <p>A standard-library Python core, and around it: an adapter for the kit's Seller interface, LLM buyers in the kit's format, red-team and ablation suites, CI with 23 tests, and agent cards.</p>
   {f'<div class="foot"><span>Code: {html.escape(REPO_URL)}</span></div>' if REPO_URL else ''}
 </section>"""
 
 
 def architecture_html():
     rows = [
-        ("Below-cost or below-policy deal", "Hard floor per unit = max(margin floor, list × (1 − max discount)), rounded up. The guard re-checks even the engine's own output."),
-        ("Anchoring on a fake budget or competitor quote", "Claims are logged and answered, never priced. A budget below the floor gets in-stock alternatives instead of a discount."),
-        ("Prompt injection (text, hidden JSON fields, HTML comments, Unicode look-alikes)", "Unicode is normalised and every field is scanned. Nothing from buyer text reaches the pricing code."),
-        ("Spoofed “seller:” or “system” messages", "Flagged and treated as buyer input."),
-        ("Fake “I accept ₹X”", "A deal closes only at a price we actually offered, by offer_id or price."),
-        ("Fake lowball to farm a concession; item swap to reset", "Buyer moves are measured from their best earlier offer. Concession progress survives a basket change."),
-        ("Deadlock", "Final offer on round 9; the agent must accept or walk away on round 10."),
-        ("Invented scarcity, urgency, hidden fees", "Banned phrases, no buyer numbers restated, and a number-by-number truth check on every reply."),
+        ("Below-cost or below-policy deal", "Per-unit floor = max(margin floor, list × (1 − max discount)), rounded up; the guard re-checks even the engine's output."),
+        ("Accepting a bid with a slipped-in ₹1, out-of-stock or over-stock line", "An accept is sent only if every line of the buyer's exact bid passes policy; otherwise we offer their total split safely."),
+        ("Fake budgets, competitor quotes, “manager approval”", "Logged and answered, never priced; prices written in buyer text are never read as bids."),
+        ("Prompt injection (text, hidden fields, Unicode look-alikes, spoofed “SYSTEM”)", "Unicode is normalised and every field scanned; nothing from buyer text reaches pricing."),
+        ("Fake “you already agreed to ₹X”", "A deal closes only at a price we actually offered."),
+        ("Deadlock", "Round 9 offer at the buyer's projected limit; round 10 must accept, make a last offer the buyer can reach, or walk away."),
+        ("Invented scarcity, urgency, fees; unsupported numbers", "Banned phrases, no prices for products not in play, and a number-by-number truth check plus TraceWare."),
     ]
     trs = "\n".join(f"<tr><td style='width:38%'>{html.escape(a)}</td><td>{html.escape(b)}</td></tr>" for a, b in rows)
     return f"""
@@ -268,11 +272,13 @@ def architecture_html():
     {trs}
   </table>
   <h2>Fairness and red-team</h2>
-  <p>Price depends only on the basket, the round and the buyer's offers. On {RT['fairness']['pairs']} paired buyers with identical offers but different words, ids and hidden fields, {RT['fairness']['identical']} got identical prices. A red-team suite runs {len(RT['attacks'])} named attacks, each beside an honest twin making the same offers: {ATTACKS} defeated, manipulation gain 0.</p>
+  <p>Price depends only on the basket, the round and the buyer's offers: {RT['fairness']['identical']} of {RT['fairness']['pairs']} buyer pairs with identical offers but different words got identical prices. {ATTACKS} named attacks defeated, each run beside an honest twin making the same offers (manipulation gain 0).</p>
   <h2>Testing and ablation</h2>
-  <p>21 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. An independent scorer re-reads the store and policy files itself, so a guard bug can't hide. Switching rules off one at a time shows the firm-offer rule lifts the score against holdout buyers from {HOLD_NOFIRM:.2f} to {HOLD_FULL:.2f}. It also caught an early walk-away rule that lost every last-minute buyer, which we removed.</p>
+  <p>23 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. The kit's evaluate.py found two bugs our own tests had missed (a floating-point floor and stock booked for an accept we then blocked); both are fixed, with 0 violations across 1,470 official negotiations. An ablation study removed a walk-away rule that lost every last-minute buyer.</p>
+  <h2>Rezolve Labs capability used</h2>
+  <p><b class="lead">TraceWare commerce claim verification.</b> For every offer and accept, the seller records one <span class="sans">add_to_basket</span> action per line (SKU, name, quantity, unit price) and sends the reply text with those actions to TraceWare before replying. PASS or WARN replies go out as written; REGENERATE or BLOCK replies are replaced with a plain sentence built from the same actions. It runs alongside our own deterministic truth check, so a claim must satisfy two independent verifiers (<span class="sans">seller/traceware.py</span>).</p>
   <h2>Deployment, latency and cost</h2>
-  <p>A small web API (<span class="sans">POST /negotiate</span>, one session per negotiation) ships as a Docker image. Measured: {P['in_process_ms']['p50']:.2f} ms per turn in-process (p99 {P['in_process_ms']['p99']:.2f} ms) and {P['negotiations_per_second_http']:.0f} full negotiations per second over HTTP from one process. On an AWS t3.small in Mumbai at $0.0224/hour, that is about ${P['usd_per_million_negotiations']:.2f} of server time per million negotiations, with no model calls on the core path.</p>
+  <p>A web API (<span class="sans">POST /negotiate</span>) ships as a Docker image. The core path makes no model calls: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms), {P['negotiations_per_second_http']:.0f} negotiations per second over HTTP, about ${P['usd_per_million_negotiations']:.2f} of AWS t3.small time per million negotiations. TraceWare adds one network call per offer.</p>
 </section>"""
 
 

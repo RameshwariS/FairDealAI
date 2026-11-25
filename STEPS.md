@@ -12,36 +12,29 @@ Registration and Round 1 submission close at the same time. Only the **team lead
    ```
 2. Check everything works on the stand-in data.
    ```bash
-   python -m pytest tests -q          # expect 21 passed
+   python -m pytest tests -q          # expect 23 passed
    python demo.py                     # three sample negotiations
    ```
 3. Register the team on techfest.org and note the **Team ID**.
 
-## Day 1–2: plug in the official starter kit (about 1–2 hours)
+## Starter kit: done
 
-4. Download the kit (`ps2-selling-to-machines 1.zip`) from the link in the problem statement and unzip it next to this folder.
-5. Copy the kit's data over the stand-ins.
-   ```bash
-   cp ../ps2-selling-to-machines/store.csv ../ps2-selling-to-machines/policy.json data/
-   ```
-6. Open the kit's `harness.py` and `evaluate.py` and check three things:
-   - **Column names** in store.csv. If any aren't recognised, add them to `COLUMN_ALIASES` in `seller/catalog.py`.
-   - **How margin is defined.** If `(price − cost) / price`, use `SellerAgent(margin_basis="price")`; if `(price − cost) / cost`, use `margin_basis="cost"`. The default `"strict"` is always safe but gives away a little margin.
-   - **What the seller interface looks like** (class name, method names, message keys). Write the small wrapper shown in `INTEGRATION.md`.
-7. Run the official harness and scorer against the three kit bots, then save the output.
-   ```bash
-   python ../ps2-selling-to-machines/evaluate.py  > outputs/official_eval.txt   # adjust to the kit's actual command
-   ```
-8. Re-run our own checks on the real data.
-   ```bash
-   python -m pytest tests -q
-   python benchmark.py
-   python -m harness.redteam
-   python -m harness.replay
-   python -m harness.ablation         # takes a few minutes
-   python -m harness.perf
-   ```
-   If anything fails, the message says which product or rule. Send it to me and I'll fix it.
+The kit is in `ps2-selling-to-machines/` and `fairdeal_seller.py` plugs the agent into it. To re-check:
+```bash
+cd ps2-selling-to-machines
+python evaluate.py --seller ../fairdeal_seller.py          # official score (53.0 on the default run)
+cd .. && python docs/official_results.py                    # all seeds -> outputs/OFFICIAL.md, official_run.jsonl
+```
+
+## Turn on Rezolve Labs TraceWare (required: at least one Rezolve Labs capability)
+
+```bash
+export REZOLVE_API_KEY=...          # from your Rezolve Labs account (credit coupon)
+export REZOLVE_MERCHANT_ID=...      # shown under "Your account" in the TraceWare docs
+export TRACEWARE_LOG=../outputs/traceware_log.jsonl
+cd ps2-selling-to-machines && python evaluate.py --seller ../fairdeal_seller.py --n 30 --workers 8
+```
+Check `outputs/traceware_log.jsonl`: every line should have a `decision` (PASS/WARN/...) and no `error`. Keep that log in the submission as evidence; the score must not drop.
 
 ## Day 2–3: test against LLM buyers (the final evaluation uses them)
 
@@ -49,8 +42,9 @@ Registration and Round 1 submission close at the same time. Only the **team lead
    ```bash
    ollama pull llama3.2:latest
    export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.2:latest LLM_TIMEOUT=300
-   python -m harness.llm_buyer --n 30 --out outputs/llm_run.jsonl
-   python -m harness.evaluate outputs/llm_run.jsonl > outputs/llm_eval.txt
+   cd ps2-selling-to-machines
+   python evaluate.py --seller ../fairdeal_seller.py --buyers ../kit_llm_buyers.py --n 30 --workers 4 \
+       --log ../outputs/llm_run.jsonl | tee ../outputs/llm_eval.txt
    ```
 10. **Tune to the official scoring.** Open the kit's `evaluate.py` and find how it combines deal rate, margin, deadlocks and violations. Write that as a formula, then search for the best settings:
     ```bash

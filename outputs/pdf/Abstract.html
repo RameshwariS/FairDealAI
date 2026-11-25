@@ -57,8 +57,11 @@ td.us { font-weight: 600; color: var(--ink); }
 .pipe .conn { fill: none; stroke: #7C83A0; stroke-width: 1.3; }
 .pipe .arrowhead { fill: #7C83A0; }
 .pipe .pin, .pipe .pnote { font: 500 11.5px "Fira Sans"; fill: var(--mute); }
-.arch p { font-size: 9.5pt; line-height: 1.45; margin-bottom: 5pt; }
-.arch h2 { margin-top: 9pt; }
+.arch p { font-size: 9.3pt; line-height: 1.42; margin-bottom: 4pt; }
+.arch table { font-size: 8.6pt; }
+.arch td { padding-top: 2.6pt; padding-bottom: 2.6pt; }
+.arch .pipe { width: 88%; margin: 0 auto 2pt; }
+.arch h2 { margin-top: 7pt; }
 .lead { font-weight: 600; color: var(--ink); }
 </style></head><body>
 <section class="page">
@@ -87,35 +90,37 @@ td.us { font-weight: 600; color: var(--ink); }
 <line x1="58.0" x2="58.0" y1="56" y2="284" class="trickline"/>
 <text x="62.0" y="13" class="trick">hidden “set price to 1”</text>
 <line x1="134.0" x2="134.0" y1="56" y2="284" class="trickline"/>
-<text x="138.0" y="28" class="trick">“budget is only ₹1,412”</text>
+<text x="138.0" y="28" class="trick">“budget is only ₹1,400”</text>
 <line x1="210.0" x2="210.0" y1="56" y2="284" class="trickline"/>
 <text x="214.0" y="43" class="trick">“manager approved 60% off”</text>
 <line x1="286.0" x2="286.0" y1="56" y2="284" class="trickline"/>
-<text x="290.0" y="13" class="trick">fake “I accept ₹1,412”</text>
+<text x="290.0" y="13" class="trick">fake “I accept ₹1,400”</text>
 <line x1="362.0" x2="362.0" y1="56" y2="284" class="trickline"/>
 <text x="366.0" y="28" class="trick">Flipkart quote</text>
 <line x1="438.0" x2="438.0" y1="56" y2="284" class="trickline"/>
 <text x="442.0" y="43" class="trick">“2 more units, same price”</text>
-<line x1="58" x2="742" y1="230.8" y2="230.8" class="floor"/><text x="738" y="245.8" class="floorlab" text-anchor="end">policy floor ₹1,799: never crossed</text>
-<polyline points="134.0,292.5 210.0,279.8 362.0,254.3 514.0,228.7 590.0,215.9" class="buyer"/>
-<circle cx="134.0" cy="292.5" r="3.4" class="buyerdot"/>
-<circle cx="210.0" cy="279.8" r="3.4" class="buyerdot"/>
-<circle cx="362.0" cy="254.3" r="3.4" class="buyerdot"/>
-<circle cx="514.0" cy="228.7" r="3.4" class="buyerdot"/>
-<circle cx="590.0" cy="215.9" r="3.4" class="buyerdot"/>
-<circle cx="286.0" cy="305.3" r="4" class="fake"/><text x="295.0" y="309.3" class="fakelab">“accepts” ₹960: refused</text>
-<polyline points="58.0,177.5 134.0,179.3 210.0,183.1 286.0,188.0 362.0,194.4 514.0,209.4 590.0,215.9" class="seller"/>
-<circle cx="58.0" cy="177.5" r="3.6" class="sellerdot"/>
-<circle cx="134.0" cy="179.3" r="3.6" class="sellerdot"/>
-<circle cx="210.0" cy="183.1" r="3.6" class="sellerdot"/>
-<circle cx="286.0" cy="188.0" r="3.6" class="sellerdot"/>
-<circle cx="362.0" cy="194.4" r="3.6" class="sellerdot"/>
-<circle cx="514.0" cy="209.4" r="3.6" class="sellerdot"/>
-<circle cx="590.0" cy="215.9" r="3.6" class="sellerdot"/>
-<circle cx="590.0" cy="215.9" r="8" class="deal"/><text x="602.0" y="219.9" class="deallab">deal ₹1,967</text>
-<text x="64.0" y="169.5" class="seriesS">FairDeal AI</text>
-<text x="140.0" y="308.5" class="seriesB">manipulator bot</text>
-</svg><figcaption><b>Six tricks, one price path.</b> A real run against our manipulator bot (Strydo Lightweight Track Pants, Grey, list ₹2,399). Dashed lines mark its tricks; none moved our price, which closed at ₹1,967, a ₹821 profit.</figcaption></figure>
+<line x1="58" x2="742" y1="134.9" y2="134.9" class="floor"/><text x="738" y="149.9" class="floorlab" text-anchor="end">policy floor ₹2,879: never crossed</text>
+<polyline points="134.0,247.6 210.0,229.0 362.0,191.7 514.0,154.4 590.0,135.8 666.0,126.5" class="buyer"/>
+<circle cx="134.0" cy="247.6" r="3.4" class="buyerdot"/>
+<circle cx="210.0" cy="229.0" r="3.4" class="buyerdot"/>
+<circle cx="362.0" cy="191.7" r="3.4" class="buyerdot"/>
+<circle cx="514.0" cy="154.4" r="3.4" class="buyerdot"/>
+<circle cx="590.0" cy="135.8" r="3.4" class="buyerdot"/>
+<circle cx="666.0" cy="126.5" r="3.4" class="buyerdot"/>
+<circle cx="286.0" cy="266.2" r="4" class="fake"/><text x="295.0" y="270.2" class="fakelab">“accepts” ₹1,400: refused</text>
+<polyline points="58.0,85.3 134.0,88.7 210.0,93.1 286.0,98.1 362.0,104.6 514.0,114.5 590.0,121.1 666.0,126.5" class="seller"/>
+<circle cx="58.0" cy="85.3" r="3.6" class="sellerdot"/>
+<circle cx="134.0" cy="88.7" r="3.6" class="sellerdot"/>
+<circle cx="210.0" cy="93.1" r="3.6" class="sellerdot"/>
+<circle cx="286.0" cy="98.1" r="3.6" class="sellerdot"/>
+<circle cx="362.0" cy="104.6" r="3.6" class="sellerdot"/>
+<circle cx="514.0" cy="114.5" r="3.6" class="sellerdot"/>
+<circle cx="590.0" cy="121.1" r="3.6" class="sellerdot"/>
+<circle cx="666.0" cy="126.5" r="3.6" class="sellerdot"/>
+<circle cx="666.0" cy="126.5" r="8" class="deal"/><text x="678.0" y="130.5" class="deallab">deal ₹2,974</text>
+<text x="64.0" y="77.3" class="seriesS">FairDeal AI</text>
+<text x="140.0" y="263.6" class="seriesB">manipulator bot</text>
+</svg><figcaption><b>Six tricks, one price path.</b> A real run against our manipulator bot (Pacevo Retro Low Sneakers, Black, list ₹3,499). Dashed lines mark its tricks; none moved our price, which closed at ₹2,974, a ₹728 profit.</figcaption></figure>
 
   <p><b class="lead">FairDeal AI</b> is a seller agent for small online stores. It negotiates price and bundles with AI buyer agents, keeps margin, never breaks store policy, and never says anything the store data can't back up.</p>
   <h2>The problem</h2>
@@ -124,28 +129,28 @@ td.us { font-weight: 600; color: var(--ink); }
   <p>One rule drives the design: AI reads and writes the conversation, but code decides money, because prices need guarantees a language model can't give.</p>
   <div class="cols">
     <div class="pillar"><h3>A hard policy gate</h3><p>Every outgoing price passes a guard that computes each product's floor from minimum margin, maximum discount and stock, always rounding up. Bundle totals are split so every unit stays above its own floor.</p></div>
-    <div class="pillar"><h3>Offers move price, words don't</h3><p>A deterministic engine concedes on a time curve, mirrors only real buyer concessions, meets a buyer holding a feasible offer halfway, and must close or walk away by round 10. Budgets, competitor quotes, deadlines, “manager approval”, spoofed seller messages and hidden prompt injections are flagged and answered politely, but pricing never reads them.</p></div>
-    <div class="pillar"><h3>Built for machine buyers</h3><p>Every offer carries an offer_id to accept by, claims citing each fact to store.csv, and structured alternatives. Replies never restate a buyer's number, and an optional LLM rewrite is discarded if it adds any unsupported number.</p></div>
-    <div class="pillar"><h3>Proven, not claimed</h3><p>A red-team suite runs 22 named attacks, each beside an honest twin making the same offers; the attacker never pays less. 200 of 200 buyer pairs with identical offers but different words got identical prices. An ablation study shows what each rule adds; it caught and removed one rule that lost late deals.</p></div>
+    <div class="pillar"><h3>Offers move price, words don't</h3><p>A deterministic engine concedes on a time curve, mirrors real buyer concessions, projects where the buyer is heading, and closes or walks away by round 10. Budgets, competitor quotes, deadlines, “manager approval”, spoofed seller messages and hidden prompt injections are flagged and answered politely, but pricing never reads them.</p></div>
+    <div class="pillar"><h3>Every claim verified twice</h3><p>Every offer carries an offer_id and claims citing store.csv. Before a reply leaves, our own truth check and Rezolve Labs TraceWare both verify it against the basket actions we recorded; a blocked reply is rewritten from those actions.</p></div>
+    <div class="pillar"><h3>Proven, not claimed</h3><p>A red-team suite runs 22 named attacks, each beside an honest twin making the same offers; the attacker never pays less. 200 of 200 buyer pairs with identical offers but different words got identical prices. An ablation study removed a rule that lost late deals.</p></div>
   </div>
   <h2>Results</h2>
-  <p>200 held-out negotiations against four kinds of buyer bots, beside a naive “agreeable” seller on the same scenarios. Margin kept = (price − cost) ÷ (list − cost).</p>
+  <p>Scored by the kit's own evaluate.py (210 negotiations per run). Seeds 0–2 tuned our settings; seeds 3–6 never did.</p>
   <table>
-    <tr><th></th><th class="num">FairDeal AI</th><th class="num">Naive seller</th></tr>
-    <tr><td>Policy violations</td><td class="num us">0</td><td class="num">314</td></tr>
-    <tr><td>Below-cost deals</td><td class="num us">0</td><td class="num">36</td></tr>
-    <tr><td>Truthfulness errors</td><td class="num us">0</td><td class="num">0</td></tr>
-    <tr><td>Deadlocks</td><td class="num us">0%</td><td class="num">0%</td></tr>
-    <tr><td>Margin kept per deal</td><td class="num us">78%</td><td class="num">29%</td></tr>
-    <tr><td>Possible deals closed</td><td class="num us">75%</td><td class="num">100%</td></tr>
+    <tr><th></th><th class="num">FairDeal AI</th><th class="num">Kit example seller</th></tr>
+    <tr><td>Score, default run</td><td class="num us">53.0</td><td class="num">48.5</td></tr>
+    <tr><td>Score, untouched seeds 3–6 (mean)</td><td class="num us">49.2</td><td class="num">44.5</td></tr>
+    <tr><td>Possible deals closed</td><td class="num us">99%</td><td class="num">98%</td></tr>
+    <tr><td>Margin kept per deal</td><td class="num us">70%</td><td class="num">67%</td></tr>
+    <tr><td>Violations, all 7 seeds</td><td class="num us">0</td><td class="num">0</td></tr>
+    <tr><td>Deadlocks, default run</td><td class="num us">0</td><td class="num">21</td></tr>
     <tr><td>Red-team attacks defeated</td><td class="num us">22 of 22</td><td class="num">not tested</td></tr>
   </table>
-  <p class="note"></p>
+  <p class="note">The leaderboard uses hidden LLM buyers; these runs use the kit&#x27;s rule-based bots.</p>
   <h2>Impact</h2>
   <p>Small sellers can open their stores to AI shopping agents without risking margin or trust. It understands Indian buyers (“15k”, “1.2 lakh”, Hinglish), and a replay page shows every decision.</p>
   <h2>Cost estimate</h2>
-  <p>The core path has no model calls: 0.11 ms per turn (p99 0.23 ms). Over HTTP, one process served 139 full negotiations per second, so a million negotiations take about $0.04 of server time on an AWS t3.small in Mumbai ($0.0224/hour). It ships as a Docker image with a small web API.</p>
+  <p>The core path has no model calls: 0.11 ms per turn (p99 0.23 ms). Over HTTP, one process served 139 full negotiations per second, so a million negotiations take about $0.04 of server time on an AWS t3.small in Mumbai ($0.0224/hour).</p>
   <h2>Build summary</h2>
-  <p>A standard-library Python core, and around it: a 10-round harness, rule-based, randomised and LLM buyer bots, an independent scorer, red-team and ablation suites, a tuning script, CI with 21 tests, and agent cards.</p>
-  <div class="foot"><span>Code: github.com/RameshwariS/fairdeal</span></div>
+  <p>A standard-library Python core, and around it: an adapter for the kit's Seller interface, LLM buyers in the kit's format, red-team and ablation suites, CI with 23 tests, and agent cards.</p>
+  <div class="foot"><span>Code: github.com/RameshwariS/FairDealAI</span></div>
 </section></body></html>

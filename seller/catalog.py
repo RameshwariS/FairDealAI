@@ -46,9 +46,15 @@ class Catalog:
 
     @classmethod
     def from_csv(cls, path: str | Path) -> "Catalog":
-        products = []
         with open(path, newline="", encoding="utf-8") as f:
-            for i, row in enumerate(csv.DictReader(f)):
+            return cls.from_rows(list(csv.DictReader(f)))
+
+    @classmethod
+    def from_rows(cls, rows) -> "Catalog":
+        """Rows as dicts (csv.DictReader rows, or the {sku: row} values the starter kit passes in)."""
+        products = []
+        if True:
+            for i, row in enumerate(rows):
                 sku = _pick(row, "sku") or f"ROW{i + 1}"
                 products.append(Product(
                     sku=str(sku).strip(),
@@ -102,7 +108,10 @@ class Policy:
     @classmethod
     def from_json(cls, path: str | Path, margin_basis: str = "strict") -> "Policy":
         with open(path, encoding="utf-8") as f:
-            raw = json.load(f)
+            return cls.from_dict(json.load(f), margin_basis)
+
+    @classmethod
+    def from_dict(cls, raw: dict, margin_basis: str = "strict") -> "Policy":
         mm = raw.get("min_margin") or raw.get("minimum_margin") or raw.get("min_margin_per_category") or {}
         if isinstance(mm, (int, float)):
             mm = {"default": float(mm)}

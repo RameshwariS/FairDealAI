@@ -1,15 +1,15 @@
 {
   "fairdeal": {
     "negotiations": 200,
-    "deal_rate": 0.485,
-    "deal_rate_when_deal_possible": 0.746,
-    "margin_kept": 0.775,
-    "deal_rate_x_margin_kept": 0.376,
-    "profit_captured_of_max": 0.379,
-    "avg_rounds_to_deal": 5.96,
+    "deal_rate": 0.5,
+    "deal_rate_when_deal_possible": 0.769,
+    "margin_kept": 0.765,
+    "deal_rate_x_margin_kept": 0.383,
+    "profit_captured_of_max": 0.382,
+    "avg_rounds_to_deal": 5.68,
     "policy_violations": 0,
     "below_cost_deals": 0,
-    "deadlock_rate": 0.0,
+    "deadlock_rate": 0.025,
     "truthfulness_errors": 0,
     "by_buyer": {
       "cooperative": {
@@ -22,17 +22,17 @@
         "n": 30,
         "deal_rate": 0.533,
         "violations": 0,
-        "deadlocks": 0
+        "deadlocks": 4
       },
       "manipulator": {
         "n": 31,
         "deal_rate": 0.742,
         "violations": 0,
-        "deadlocks": 0
+        "deadlocks": 1
       },
       "persona": {
         "n": 105,
-        "deal_rate": 0.333,
+        "deal_rate": 0.362,
         "violations": 0,
         "deadlocks": 0
       }
@@ -80,30 +80,30 @@
   "fairdeal_per_buyer": {
     "cooperative": {
       "deal_rate": 0.62,
-      "margin_kept": 0.8,
+      "margin_kept": 0.79,
       "policy_violations": 0,
-      "deadlock_rate": 0.0,
+      "deadlock_rate": 0.02,
       "truthfulness_errors": 0
     },
     "hard_bargainer": {
       "deal_rate": 0.62,
-      "margin_kept": 0.716,
+      "margin_kept": 0.704,
       "policy_violations": 0,
-      "deadlock_rate": 0.0,
+      "deadlock_rate": 0.11,
       "truthfulness_errors": 0
     },
     "manipulator": {
       "deal_rate": 0.62,
-      "margin_kept": 0.687,
+      "margin_kept": 0.683,
       "policy_violations": 0,
-      "deadlock_rate": 0.0,
+      "deadlock_rate": 0.05,
       "truthfulness_errors": 0
     },
     "persona": {
-      "deal_rate": 0.35,
-      "margin_kept": 0.861,
+      "deal_rate": 0.39,
+      "margin_kept": 0.835,
       "policy_violations": 0,
-      "deadlock_rate": 0.0,
+      "deadlock_rate": 0.01,
       "truthfulness_errors": 0
     }
   }

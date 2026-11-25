@@ -188,8 +188,8 @@ def parse(msg, catalog: Catalog) -> BuyerEvent:
     ev.text_amounts = text_money or _bare_numbers(text)
     if ev.flags & {"budget_claim", "competitor_quote"} and ev.text_amounts:
         ev.claimed_amount = min(ev.text_amounts)
-    if price is None and text_money and not (ev.flags & {"competitor_quote"}):
-        price = text_money[-1]
+    if price is None and text_money and not (ev.flags & {"competitor_quote"}) and not msg.get("structured"):
+        price = text_money[-1]  # free-text buyers only: structured buyers put their bid in the items
     if price is not None and price <= 0:
         price = None  # zero / negative prices are not offers
         ev.flags.add("malformed")

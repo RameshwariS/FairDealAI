@@ -22,16 +22,19 @@ from .policy import Line, PolicyGuard, ceil2
 
 @dataclass
 class Params:
-    open_single: float = 1.00      # open at list price for a single unit
+    # defaults tuned against the starter kit's evaluate.py on seeds 0-2; checked on held-out seeds 3-6
+    open_single: float = 0.90      # open 10% of the headroom under list for a single unit
     open_bundle: float = 0.80      # bundles / multi-unit open with a real discount
-    end_x: float = 0.05            # where the time curve ends (keep 5% of headroom)
-    boulware: float = 1.6          # >1 = concede slowly early, faster near the deadline
-    reciprocity: float = 0.3       # share of the buyer's concession we mirror
+    end_x: float = 0.15            # where the time curve ends (keep 15% of headroom; the projection does the rest)
+    boulware: float = 1.2          # >1 = concede slowly early, faster near the deadline
+    reciprocity: float = 0.6       # share of the buyer's concession we mirror
     close_gap: float = 0.06        # accept if the buyer is this close (in x units)
     close_gap_abs: float = 0.015   # ... or within 1.5% of list total
     stall_rounds: int = 99         # off: an early 'final offer' to a staller only gave margin away (see ABLATION.md)
     stall_walk: bool = False       # walk away early from a staller (off: rounds aren't scored, late deals are)
     max_rounds: int = 10
+    project_limit: bool = True     # round-9 offer = the buyer's projected limit (see projected_limit)
+    project_margin: float = 0.02   # aim this far (x units) under the projection so the buyer can say yes
     firm_from_round: int = 4       # only treat repeated offers as 'firm' from this round on
     late_accept: bool = True       # on rounds 9-10, take any offer that clears the policy floor
     final_offer: bool = True       # round 9 offer = our real best (end_x)
@@ -59,6 +62,7 @@ class Negotiation:
         self.our_total: float | None = None
         self.our_lines: list[Line] = []
         self.buyer_x: list[float] = []           # buyer offers on the current basket
+        self.buyer_rounds: list[int] = []        # the round each of those offers came in
         self.closed = False
 
     # ---------- helpers ----------
@@ -86,12 +90,46 @@ class Negotiation:
         if key != sorted((l.sku, l.qty) for l in self.lines):
             self.lines = lines
             self.buyer_x = []  # buyer history is basket-specific
+            self.buyer_rounds = []
             # keep our concession progress (x) so changing the basket is not a reset trick
 
     def _time_x(self, rnd: int) -> float:
         t = min(1.0, max(0.0, (rnd - 1) / max(1, self.p.max_rounds - 2)))
         start = self.p.open_bundle if self.is_bundle() else self.p.open_single
         return start - (start - self.p.end_x) * (t ** self.p.boulware)
+
+    def projected_limit(self):
+        """Where the buyer's offers are heading by the last round, in x units.
+
+        Fits offers to  x(r) = a + (L - a) * (r / T) ** e  for a few curve shapes e (a buyer that
+        concedes evenly, early or late) and returns L from the best fit. Needs 3+ offers on this
+        basket. Only ever used to LOWER our round-9 offer toward a price the buyer can reach."""
+        pts = list(zip(self.buyer_rounds, self.buyer_x))
+        if len(pts) < 3:
+            return None
+        T = float(self.p.max_rounds)
+        best = None
+        for e in (0.5, 0.7, 1.0, 1.5, 2.0, 2.5, 3.0):
+            # an offer that arrives in round r answers our round r-1 message, so it shows the buyer at time r-1
+            xs = [min(1.0, max(0, r - 1) / T) ** e for r, _ in pts]
+            ys = [y for _, y in pts]
+            # least squares for y = a (1 - x) + L x
+            s11 = sum((1 - x) ** 2 for x in xs)
+            s12 = sum((1 - x) * x for x in xs)
+            s22 = sum(x * x for x in xs)
+            b1 = sum((1 - x) * y for x, y in zip(xs, ys))
+            b2 = sum(x * y for x, y in zip(xs, ys))
+            det = s11 * s22 - s12 * s12
+            if abs(det) < 1e-12:
+                continue
+            a = (b1 * s22 - b2 * s12) / det
+            L = (s11 * b2 - s12 * b1) / det
+            err = sum((a * (1 - x) + L * x - y) ** 2 for x, y in zip(xs, ys))
+            if best is None or err < best[0]:
+                best = (err, L)
+        if best is None:
+            return None
+        return max(best[1], max(self.buyer_x))  # never predict a limit below what they already offered
 
     def _firm_repeats(self) -> int:
         """How many times in a row the buyer has repeated (within 0.5%) the same offer."""
@@ -127,6 +165,7 @@ class Negotiation:
 
         if offer_total is not None:
             self.buyer_x.append(self.to_x(offer_total))
+            self.buyer_rounds.append(rnd)
         bx = self.buyer_x[-1] if offer_total is not None else None  # this turn's offer only
 
         # what we would say next if we countered
@@ -148,6 +187,10 @@ class Negotiation:
             target = min(target, max(bx, (self.our_x + bx) / 2))
         if penultimate and self.p.final_offer:
             target = max(0.0, min(target, self.p.end_x))  # final offer: our real best
+            # meet the buyer where its own concessions say it will be at the deadline (never below floor)
+            limit = self.projected_limit() if self.p.project_limit else None
+            if limit is not None:
+                target = max(0.0, min(target, limit - self.p.project_margin))
         next_total = self.to_total(target)
 
         # ---- accept? (only ever accept an offer that passes the guard) ----
@@ -164,6 +207,11 @@ class Negotiation:
 
         # ---- final turn: we must not leave it open (deadlock = lost points) ----
         if last_turn:
+            limit = self.projected_limit() if self.p.project_limit else None
+            if limit is not None and limit >= 0:
+                # their own concessions say they can reach a price we may sell at: one last offer
+                x = max(0.0, min(self.our_x if self.our_x is not None else 1.0, limit - self.p.project_margin))
+                return self._offer(x, self.to_total(x), final=True, reason="last offer at projected limit")
             return Decision("walk_away", self.lines, self.to_total(0.0), reason="final round, buyer below floor")
 
         # ---- stalling far below floor: give a final offer once, then walk ----

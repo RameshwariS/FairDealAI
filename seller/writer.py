@@ -94,14 +94,15 @@ class Writer:
         elif kind == "info":
             pass
         if alts:
-            opts = " and ".join(f"{p.name} ({p.sku}) at {rs(p.price)}" for p in alts)
+            # names only: a price for a product not in this negotiation would be an unsupported claim
+            opts = " and ".join(f"{p.name} ({p.sku})" for p in alts)
             s.append(f"If it helps, {opts} {'are' if len(alts) > 1 else 'is'} in stock.")
         for l in stock_lines or []:
             p = self.c.get(l.sku)
             s.append(f"{p.name}: {p.stock} in stock." if p.stock else f"{p.name} is out of stock.")
         text = " ".join(s).strip() or "How can I help? Tell me which product and quantity you need."
 
-        extra = [total, list_total] + [p.price for p in alts or []]
+        extra = [total, list_total]
         extra += [self.c.get(l.sku).stock for l in stock_lines or []]
         allowed = self.allowed_numbers(lines + list(stock_lines or []), extra)
         problems = self.verify(text, allowed)

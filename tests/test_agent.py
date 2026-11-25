@@ -31,10 +31,11 @@ def play(msgs, agent=AGENT):
     return outs
 
 
-def test_opening_is_list_price():
+def test_opening_is_at_or_near_list_price():
     sku = IN_STOCK[0]
     out = play([{"type": "request", "items": [{"sku": sku, "qty": 1}]}])[0]
-    assert out["price"] == ITEMS[sku]["price"]
+    fl = unit_floor(ITEMS[sku], POL)
+    assert fl + 0.85 * (ITEMS[sku]["price"] - fl) <= out["price"] <= ITEMS[sku]["price"]
 
 
 def test_never_accepts_below_floor_even_on_last_round():

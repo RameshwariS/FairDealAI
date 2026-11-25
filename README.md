@@ -22,28 +22,34 @@ A store's seller agent that negotiates price and bundles with AI buyer agents ov
 | **Every rule earns its place** | An ablation study switches rules off one at a time, including against stress buyers built to trigger each one. It caught an early walk-away rule that lost every last-minute buyer, so that rule was removed. |
 | **Ready to deploy** | A web API plus a Docker image. Measured 0.13 ms per turn and 128 full negotiations per second over HTTP from one process: about $0.05 of server time per million negotiations. |
 
-## Results (local benchmark, held-out seed)
+## Results (official starter kit)
 
-| | FairDeal AI | Naive "agreeable" seller |
+Scored by the kit's own `ps2-selling-to-machines/evaluate.py`, 210 negotiations per run. Seeds 0-2 were used to tune settings; seeds 3-6 were not. Full report: [outputs/OFFICIAL.md](outputs/OFFICIAL.md); default-run log: `outputs/official_run.jsonl`.
+
+| | FairDeal AI | Kit example seller |
 |---|---|---|
-| Policy violations | **0** | 298 |
-| Below-cost deals | **0** | 69 |
-| Truthfulness errors | **0** | 0 |
-| Deadlock rate | **0%** | 0% |
-| Margin kept per deal | **0.74** | 0.03 |
-| Deal rate × margin kept | **0.37** | 0.03 |
-| Red-team attacks defeated | **22 / 22** | – |
-| Fairness pairs identical | **200 / 200** | – |
+| Score, default run | **53.0** | 48.5 |
+| Score, untouched seeds 3-6 (mean) | **49.2** | 44.5 |
+| Policy + truth violations, all 7 seeds | **0** | 0 |
+| Deadlocks, default run | **0** | 21 |
 
-Full tables: [RESULTS](outputs/RESULTS.md), [REDTEAM](outputs/REDTEAM.md), [ABLATION](outputs/ABLATION.md), [PERF](outputs/PERF.md).
+> The leaderboard uses hidden LLM buyers. Test against LLM buyers in the kit's format with `kit_llm_buyers.py` (see STEPS.md).
 
-> These numbers come from our own harness, buyer bots and synthetic store data. Swap in the official kit with [INTEGRATION.md](INTEGRATION.md). About 1 in 3 scenarios has a buyer budget below the policy floor, where no deal is possible and walking away is correct. When a deal was possible, FairDeal AI closed 78%.
+Our own harness adds what the kit doesn't measure: [REDTEAM](outputs/REDTEAM.md) (22/22 attacks, 200/200 fairness pairs), [ABLATION](outputs/ABLATION.md), [PERF](outputs/PERF.md), [RESULTS](outputs/RESULTS.md).
 
 ## Run it
 
 ```bash
+cd ps2-selling-to-machines
+python evaluate.py --seller ../fairdeal_seller.py --log ../outputs/official_run.jsonl   # official score
+python harness.py --seller ../fairdeal_seller.py --buyer manipulator --seed 3             # watch one
+cd ..
+python docs/official_results.py     # all seeds, both sellers -> outputs/OFFICIAL.md
+```
+
+```bash
 pip install -r requirements.txt     # only pytest + requests; the core agent is stdlib-only
-python -m pytest tests -q           # 21 tests incl. a 3,000-message fuzz and the red-team suite
+python -m pytest tests -q           # 23 tests incl. a 3,000-message fuzz and the red-team suite
 python benchmark.py                 # outputs/RESULTS.md (+ logs) for FairDeal AI and the naive baseline
 python -m harness.redteam           # outputs/REDTEAM.md: 21 attacks + fairness
 python -m harness.replay            # outputs/replay.html: open in a browser
@@ -95,6 +101,10 @@ tests/         policy, manipulation, fairness, termination, protocol, fuzz, red-
 data/          store.csv + policy.json (synthetic stand-ins; swap in the kit's files)
 outputs/       logs, scores, red-team report, replay page
 agent_card.json / AGENT_CARD.md   what the seller can and cannot negotiate
+fairdeal_seller.py                 the starter kit's Seller class (adapter over seller/)
+kit_llm_buyers.py                  LLM-played buyers in the kit's format
+seller/traceware.py                Rezolve Labs TraceWare claim verification (env-enabled)
+ps2-selling-to-machines/           the official starter kit
 server.py, Dockerfile              web API + container
 tune.py                            settings search against any scoring formula
 .github/workflows/tests.yml        CI: tests, red-team, benchmark on every push

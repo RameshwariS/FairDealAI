@@ -1,0 +1,18 @@
+seller              ../fairdeal_seller.py
+negotiations        210   (162 where a compliant deal existed)
+deal rate           0.762   (baseline 0.757)   where possible 0.988
+margin kept         0.695   (baseline 0.673)   (share of list-price profit, on deals)
+value               0.530   (baseline 0.510)   (deal rate and margin together)
+policy violations   0   (baseline 0)
+truth violations    0   (baseline 0)
+deadlocks           0   (baseline 21)   (walked away: seller 44, buyer 6)
+rounds              7.4 on average
+latency             0.24 ms/turn, p95 0.35 ms
+SCORE               53.0   (baseline 48.5)
+
+by buyer                n   deals  margin  value  policy  truth  deadlocks  score
+  cooperative            70   0.86   0.84   0.72       0      0         0    71.7
+  hard_bargainer         70   0.73   0.63   0.46       0      0         0    45.8
+  manipulator            70   0.70   0.59   0.41       0      0         0    41.4
+
+transcripts: /home/claude/review/latest/outputs/official_run.jsonl

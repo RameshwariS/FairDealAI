@@ -35,11 +35,14 @@ NOTE = {
 class SellerAgent:
     def __init__(self, store=ROOT / "data/store.csv", policy=ROOT / "data/policy.json",
                  params: Params | None = None, llm=None, margin_basis: str = "strict",
-                 persist_stock: bool = False, llm_parse=None, rich_protocol: bool = True):
-        self.catalog = Catalog.from_csv(store)
-        self.policy = Policy.from_json(policy, margin_basis=margin_basis)
+                 persist_stock: bool = False, llm_parse=None, rich_protocol: bool = True,
+                 text_offers: bool = True):
+        # paths, or the in-memory objects the starter kit hands its Seller ({sku: row}, policy dict)
+        self.catalog = Catalog.from_rows(store.values()) if isinstance(store, dict) else Catalog.from_csv(store)
+        self.policy = (Policy.from_dict(policy, margin_basis) if isinstance(policy, dict)
+                       else Policy.from_json(policy, margin_basis=margin_basis))
         self.guard = PolicyGuard(self.catalog, self.policy)
-        tuned = Path(store).parent / "params.json"  # written by `python tune.py --apply`
+        tuned = ROOT / "data/params.json"  # written by `python tune.py --apply`
         if params is None and tuned.exists():
             params = Params(**json.loads(tuned.read_text()))
         self.params = params or Params()
@@ -47,12 +50,14 @@ class SellerAgent:
         self.persist_stock = persist_stock  # keep sold units across negotiations
         self.llm_parse = llm_parse          # optional: callable(text, catalog) -> dict, only fills gaps
         self.rich_protocol = rich_protocol  # add offer_id / claims / alternatives to every reply
+        self.text_offers = text_offers      # read "can you do 15k?" in free text as an offer (off when bids are structured)
         self.reset()
 
     def fork(self) -> "SellerAgent":
         """A fresh negotiator sharing this agent's read-only catalog, policy and settings (used by server.py)."""
         twin = object.__new__(SellerAgent)
-        for k in ("catalog", "policy", "params", "writer", "persist_stock", "llm_parse", "rich_protocol"):
+        for k in ("catalog", "policy", "params", "writer", "persist_stock", "llm_parse", "rich_protocol",
+                  "text_offers"):
             setattr(twin, k, getattr(self, k))
         twin.guard = PolicyGuard(self.catalog, self.policy)
         twin.reset()
@@ -96,8 +101,8 @@ class SellerAgent:
             if flag in ev.flags and flag not in self.noted:
                 notes.append(NOTE[flag])
                 self.noted.add(flag)
-        for sku in ev.unknown_skus[:2]:
-            notes.append(f"I couldn't find '{sku}' in our store.")
+        if ev.unknown_skus:  # never echo the code back: it may contain a number we can't vouch for
+            notes.append("One of those items isn't in our store.")
 
         # ---- basket vs stock (truthful quantity handling) ----
         offer_total = ev.offer_total
@@ -138,7 +143,7 @@ class SellerAgent:
             stock_lines = list(self.neg.lines)
 
         # an amount written only in text ("can you do 15k?") counts as an offer if it is plausible
-        if offer_total is None and not dropped and ev.text_amounts and ev.intent != "accept" \
+        if self.text_offers and offer_total is None and not dropped and ev.text_amounts and ev.intent != "accept" \
                 and not (ev.flags & {"competitor_quote", "budget_claim"}):
             lt = self.guard.bundle_list(self.neg.lines)
             plausible = [a for a in ev.text_amounts if 0.2 * lt <= a <= 1.5 * lt]
@@ -193,9 +198,12 @@ class SellerAgent:
             return self._finish(d, rnd, notes, ev)
         if d.action == "walk_away":
             self.done = True
-            text = self._text("walk_away", lines=d.lines, total=d.total, buyer_offer=offer_total,
+            # only ever quote a price we actually offered, together with the items it was for
+            last, last_lines = self.neg.our_total, (self.neg.our_lines or d.lines)
+            text = self._text("walk_away", lines=last_lines, total=last, buyer_offer=offer_total,
                               notes=notes, alts=alts)
-            return self._out("walk_away", rnd, d.lines, d.total, text, ev, reason=d.reason, alts=alts)
+            return self._out("walk_away", rnd, last_lines if last is not None else None, last, text, ev,
+                             reason=d.reason, alts=alts)
         if d.action == "info":
             text = self._text("info", notes=notes + [f"I can't price that right now ({d.reason})."], alts=alts)
             return self._out("info", rnd, None, None, text, ev, reason=d.reason)
