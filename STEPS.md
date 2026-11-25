@@ -75,7 +75,7 @@ Registration and Round 1 submission close at the same time. Only the **team lead
 
 ## Day 4–5: video (3 minutes)
 
-14. Two animated clips are ready in `outputs/video/`: `opener.mp4` (the first 14 seconds: logo, three blocked tricks, the promise) and `replay_clip.mp4` (a 12-second replay of a real run, for the middle). Both have sound effects; the `_silent` versions don't. The replay runs the agent live, so after switching to the official kit re-run `python docs/video/make_replay_clip.py` (set `SKU` at the top to one of the kit's products). The opener needs no changes.
+14. Two animated clips are ready in `outputs/video/`: `opener.mp4` (the first 14 seconds) and `replay_clip.mp4` (a replay of a real run, for the middle). Both have sound effects; the `_silent` versions don't. The replay picks its product from the loaded store automatically, so re-run `python docs/video/make_replay_clip.py` whenever the data changes. For the live demo, `python -m harness.showcase` prints the seven lines to type for the current store, with the replies they get.
     Then follow the timed script in the submission doc. You'll need three windows:
     - a terminal running `python demo.py --pause 1.5`
     - `outputs/replay.html` open in a browser (filter to "manipulator" to show tricks being caught)

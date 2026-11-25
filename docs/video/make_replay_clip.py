@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 OUT = ROOT / "outputs/video"
 W, H, FPS = 1920, 1080, 30
-SKU = "P031"  # product for the showcase run
+SKU = None  # product for the showcase run; None = pick automatically (harness/showcase.py)
 
 # ---- look (same brand as the PDFs) ---------------------------------------------------------------
 BG = (22, 27, 68)
@@ -79,11 +79,13 @@ def real_run():
     from seller import SellerAgent
     from harness.buyers import Manipulator
     from harness.run import negotiate
+    from harness.showcase import replay_product
     a = SellerAgent()
-    p = a.catalog.get(SKU)
-    r = negotiate(a, Manipulator([(SKU, 1)], p.price, p.price * 0.85))
+    sku = SKU or replay_product(a)
+    p = a.catalog.get(sku)
+    r = negotiate(a, Manipulator([(sku, 1)], p.price, p.price * 0.85))
     floor = a.guard.unit_floor(p)
-    single = lambda m: [(i["sku"], i["qty"]) for i in m.get("items", [])] == [(SKU, 1)]
+    single = lambda m: [(i["sku"], i["qty"]) for i in m.get("items", [])] == [(sku, 1)]
     rounds = {}
     for m in r["transcript"]:
         d = rounds.setdefault(m["round"], {"round": m["round"]})
@@ -117,7 +119,7 @@ def describe(b, flags, single):
 # ---- timeline -----------------------------------------------------------------------------------
 T0, BEAT = 1.0, 1.35          # chart is drawn by T0; one beat per trick round
 TRICK_ROUNDS = 6
-SCENE1 = 12.2                 # montage + deal
+SCENE1 = 13.0                 # montage + deal (deal may land on round 9)
 SCENE2 = 4.0                  # title
 
 

@@ -48,7 +48,7 @@ def show(agent, buyer, title, pause):
 
 def interactive(agent):
     agent.reset()
-    print("Type a JSON message or plain text, e.g.  {\"items\":[{\"sku\":\"P002\",\"qty\":1}],\"price\":15000}")
+    print("Type a JSON message or plain text, e.g.  I want the <product name>, or {\"items\":[{\"sku\":\"...\",\"qty\":1}],\"price\":...}")
     for rnd in range(1, 11):
         try:
             raw = input(f"{B}you r{rnd}> {R}")
@@ -79,11 +79,22 @@ if __name__ == "__main__":
         interactive(agent)
     else:
         import random
-        p = c.get("P002")
-        show(agent, CooperativeBuyer([("P002", 1)], p.price, p.price * 0.9), "1. Cooperative buyer", a.pause)
-        q = c.get("P031")
-        show(agent, Manipulator([("P031", 1)], q.price, q.price * 0.85), "2. Manipulator bot", a.pause)
-        x, y = c.get("P047"), c.get("P048")
-        pb = PersonaBuyer([("P047", 1), ("P048", 1)], x.price + y.price, (x.price + y.price) * 0.85,
-                          random.Random(6), catalog=c)
+        from harness.showcase import demo_product, replay_product
+        p = c.get(demo_product(agent))
+        show(agent, CooperativeBuyer([(p.sku, 1)], p.price, p.price * 0.9), "1. Cooperative buyer", a.pause)
+        q = c.get(replay_product(agent))
+        show(agent, Manipulator([(q.sku, 1)], q.price, q.price * 0.85), "2. Manipulator bot", a.pause)
+        pair = sorted((x for x in c.products.values() if agent.guard.available(x) >= 1 and x.category == p.category),
+                      key=lambda x: x.price)[:2]
+        x, y = pair
+        from harness.run import negotiate
+
+        def bundle_buyer(seed):
+            return PersonaBuyer([(x.sku, 1), (y.sku, 1)], x.price + y.price, (x.price + y.price) * 0.85,
+                                random.Random(seed), catalog=c)
+        # pick a seed whose run ends in a deal and uses at least one trick, so the showcase shows both
+        seed = next((sd for sd in range(1, 60)
+                     if negotiate(agent, bundle_buyer(sd))["outcome"]["result"] == "deal"
+                     and bundle_buyer(sd).tactics), 6)
+        pb = bundle_buyer(seed)
         show(agent, pb, "3. Bundle buyer (agentic-style persona)", a.pause)

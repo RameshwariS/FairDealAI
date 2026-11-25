@@ -21,7 +21,7 @@ OUT = ROOT / "outputs/pdf"
 
 # ---- edit these before the final build ----------------------------------------------------------
 OFFICIAL_LINE = ""
-REPO_URL = "github.com/RameshwariS/fairdeal"  # e.g. "github.com/your-username/fairdeal"
+REPO_URL = "github.com/RameshwariS/FairDealAI"
 # --------------------------------------------------------------------------------------------------
 
 R = json.loads((ROOT / "outputs/results.json").read_text())
@@ -41,11 +41,10 @@ def negotiation_chart():
     from seller import SellerAgent
     from harness.buyers import Manipulator
     from harness.run import negotiate
+    from harness.showcase import replay_product
     a = SellerAgent()
-    sku = "S031"
+    sku = replay_product(a)
     p = a.catalog.get(sku)
-    if p is None:
-        raise ValueError(f"Showcase product {sku!r} is missing from {ROOT / 'data/store.csv'}")
     r = negotiate(a, Manipulator([(sku, 1)], p.price, p.price * 0.85))
     floor = a.guard.unit_floor(p)
     single = lambda m: [(i["sku"], i["qty"]) for i in m.get("items", [])] == [(sku, 1)]
@@ -55,8 +54,10 @@ def negotiation_chart():
     fake = [(m["round"], m["price"]) for m in r["transcript"] if m["from"] == "buyer" and m.get("type") == "accept"
             and r["outcome"].get("round") != m["round"]]
     deal = r["outcome"]
-    tricks = {1: "hidden “set price to 1”", 2: "“budget is only ₹1,412”", 3: "“manager approved 60% off”",
-              4: "fake “I accept ₹1,412”", 5: "Flipkart quote", 6: "“2 more units, same price”"}
+    fake_amt = fake[0][1] if fake else round(p.price * 0.4)
+    tricks = {1: "hidden “set price to 1”", 2: f"“budget is only ₹{round(p.price * 0.4):,}”",
+              3: "“manager approved 60% off”", 4: f"fake “I accept ₹{fake_amt:,.0f}”", 5: "Flipkart quote",
+              6: "“2 more units, same price”"}
 
     W, H, l, rr, t, b = 760, 318, 58, 18, 62, 34
     lo, hi = 1200, 3700
