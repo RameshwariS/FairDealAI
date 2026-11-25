@@ -99,6 +99,21 @@ def main():
     a = ap.parse_args()
     items, pol = load()
 
+    if not a.score_cmd:
+        # Catch placeholders such as "..." (which Python evaluates as Ellipsis)
+        # before running the expensive candidate simulations.
+        metric_names = {
+            "deal_rate", "margin_kept", "deal_rate_x_margin_kept",
+            "profit_captured_of_max", "deadlock_rate", "policy_violations",
+            "truthfulness_errors", "deal_rate_when_deal_possible", "avg_rounds_to_deal",
+        }
+        try:
+            probe = eval(a.objective, {"__builtins__": {}}, {name: 0 for name in metric_names})
+        except Exception as e:
+            ap.error(f"invalid --objective: {e}. Use a numeric expression over: {', '.join(sorted(metric_names))}")
+        if isinstance(probe, bool) or not isinstance(probe, (int, float)):
+            ap.error("--objective must evaluate to a number; replace placeholder expressions such as '...' with a formula")
+
     keys = list(GRID)
     results = []
     combos = list(itertools.product(*GRID.values()))

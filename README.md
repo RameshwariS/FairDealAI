@@ -70,8 +70,8 @@ python tune.py --objective "deal_rate * margin_kept - 2 * deadlock_rate" --apply
 LLM buyer bots (closest to the hidden evaluation), using any OpenAI-compatible endpoint:
 
 ```bash
-ollama pull llama3.1:8b
-export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.1:8b
+ollama pull llama3.2:latest
+export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.2:latest
 python -m harness.llm_buyer --n 30 --out outputs/llm_run.jsonl
 python -m harness.evaluate outputs/llm_run.jsonl
 ```
