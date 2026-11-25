@@ -19,6 +19,17 @@ hidden ones (LLM buyers), and let it search.
 
     python tune.py --apply      # also save the winner to data/params.json (SellerAgent loads it)
 
+Making it faster (LLM buyers are slow -- every candidate is n x ~10 model calls):
+
+    python tune.py --buyers llm persona --n 20 --seeds 1 --quick          # 8 combos, not 108
+    python tune.py ... --max-combos 20                                    # random sample of the grid
+    python tune.py ... --grid '{"end_x": [0.05, 0.15], "firm_from_round": [3, 4]}'  # override some axes
+    python tune.py ... --workers 4    # run candidates in parallel (needs OLLAMA_NUM_PARALLEL>=4 to help)
+
+Every finished candidate is appended to outputs/tune_progress.jsonl. Ctrl+C still writes
+TUNING.md from what finished, and --resume skips candidates already in that file
+(same objective / buyers / n / seeds).
+
 Metrics available to --objective: deal_rate, margin_kept, deal_rate_x_margin_kept,
 profit_captured_of_max, deadlock_rate, policy_violations, truthfulness_errors,
 deal_rate_when_deal_possible, avg_rounds_to_deal.
@@ -27,6 +38,7 @@ from __future__ import annotations
 
 import argparse
 import itertools
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import random
 import re
@@ -49,7 +61,16 @@ GRID = {
     "reciprocity": [0.2, 0.4],
     "firm_from_round": [3, 4, 6],
 }
+# --quick: the two axes that moved the score most in early runs, the rest pinned
+QUICK_GRID = {
+    "boulware": [1.0],
+    "end_x": [0.05, 0.15],
+    "open_single": [0.92],
+    "reciprocity": [0.2, 0.4],
+    "firm_from_round": [3, 4],
+}
 SAFE = {"policy_violations", "truthfulness_errors"}
+PROGRESS = ROOT / "outputs/tune_progress.jsonl"
 
 
 def logs_for(params, buyers, n, seed):
@@ -96,6 +117,11 @@ def main():
     ap.add_argument("--n", type=int, default=300)
     ap.add_argument("--seeds", type=int, nargs="+", default=[1, 2])
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--quick", action="store_true", help="small 8-candidate grid")
+    ap.add_argument("--grid", default=None, help='JSON overriding grid axes, e.g. {"end_x": [0.05, 0.15]}')
+    ap.add_argument("--max-combos", type=int, default=0, help="randomly sample at most this many candidates")
+    ap.add_argument("--workers", type=int, default=1, help="candidates evaluated in parallel")
+    ap.add_argument("--resume", action="store_true", help="skip candidates already in outputs/tune_progress.jsonl")
     a = ap.parse_args()
     items, pol = load()
 
@@ -114,19 +140,57 @@ def main():
         if isinstance(probe, bool) or not isinstance(probe, (int, float)):
             ap.error("--objective must evaluate to a number; replace placeholder expressions such as '...' with a formula")
 
-    keys = list(GRID)
-    results = []
-    combos = list(itertools.product(*GRID.values()))
-    for i, combo in enumerate(combos, 1):
-        kw = dict(zip(keys, combo))
+    grid = dict(QUICK_GRID if a.quick else GRID)
+    if a.grid:
+        extra = json.loads(a.grid)
+        unknown = set(extra) - set(GRID)
+        if unknown:
+            ap.error(f"--grid has unknown keys {sorted(unknown)}; allowed: {list(GRID)}")
+        grid.update(extra)
+    keys = list(grid)
+    combos = [dict(zip(keys, c)) for c in itertools.product(*grid.values())]
+    if a.max_combos and a.max_combos < len(combos):
+        combos = random.Random(0).sample(combos, a.max_combos)
+
+    run_id = {"objective": a.score_cmd or a.objective, "buyers": sorted(a.buyers), "n": a.n, "seeds": a.seeds}
+    key_of = lambda kw: json.dumps(kw, sort_keys=True)
+    done = {}
+    if a.resume and PROGRESS.exists():
+        for line in PROGRESS.read_text().splitlines():
+            rec = json.loads(line)
+            if rec.get("run") == run_id:
+                done[key_of(rec["params"])] = rec
+    wanted = {key_of(c) for c in combos}
+    results = [(r["value"], r["params"], r["metrics"]) for k, r in done.items() if k in wanted]
+    todo = [c for c in combos if key_of(c) not in done]
+    print(f"{len(combos)} candidates, {len(combos) - len(todo)} already done, {len(todo)} to run", flush=True)
+
+    def evaluate(kw):
         vals, metrics = [], []
         for s in a.seeds:
             v, m = objective_value(logs_for(Params(**kw), a.buyers, a.n, s), a.objective, a.score_cmd, items, pol)
             vals.append(v)
             metrics.append(m)
-        mean = sum(vals) / len(vals)
-        results.append((mean, kw, metrics))
-        print(f"[{i}/{len(combos)}] {mean:.4f} {kw}", flush=True)
+        return sum(vals) / len(vals), kw, metrics
+
+    PROGRESS.parent.mkdir(exist_ok=True)
+    pool = ThreadPoolExecutor(max_workers=max(1, a.workers))
+    try:
+        futures = [pool.submit(evaluate, kw) for kw in todo]
+        for i, fut in enumerate(as_completed(futures), 1):
+            mean, kw, metrics = fut.result()
+            results.append((mean, kw, metrics))
+            with PROGRESS.open("a") as f:
+                f.write(json.dumps({"run": run_id, "params": kw, "value": mean, "metrics": metrics}) + "\n")
+            print(f"[{i}/{len(todo)}] {mean:.4f} {kw}", flush=True)
+    except KeyboardInterrupt:
+        print(f"\ninterrupted: writing results for {len(results)} finished candidates "
+              "(rerun with --resume to continue)", flush=True)
+        pool.shutdown(wait=False, cancel_futures=True)
+    else:
+        pool.shutdown()
+    if not results:
+        return
     results.sort(key=lambda r: -r[0])
     default = Params()
     md = ["# Tuning results\n", f"Objective: `{a.score_cmd or a.objective}` · buyers: {', '.join(sorted(set(a.buyers)))} "
@@ -134,9 +198,10 @@ def main():
           "| Rank | Objective | " + " | ".join(keys) + " | deal rate | margin kept |",
           "|---|---|" + "---|" * len(keys) + "---|---|"]
     for rank, (v, kw, ms) in enumerate(results[:10], 1):
-        dr = sum(m["deal_rate"] for m in ms) / len(ms)
-        mk = sum(m["margin_kept"] for m in ms) / len(ms)
-        md.append(f"| {rank} | {v:.4f} | " + " | ".join(str(kw[k]) for k in keys) + f" | {dr:.3f} | {mk:.3f} |")
+        ms = [m for m in ms or [] if m]
+        dr = f"{sum(m['deal_rate'] for m in ms) / len(ms):.3f}" if ms else "-"
+        mk = f"{sum(m['margin_kept'] for m in ms) / len(ms):.3f}" if ms else "-"
+        md.append(f"| {rank} | {v:.4f} | " + " | ".join(str(kw.get(k, "")) for k in keys) + f" | {dr} | {mk} |")
     md.append("\nCurrent defaults: " + ", ".join(f"{k}={getattr(default, k)}" for k in keys))
     (ROOT / "outputs").mkdir(exist_ok=True)
     (ROOT / "outputs/TUNING.md").write_text("\n".join(md))

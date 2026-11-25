@@ -71,7 +71,7 @@ LLM buyer bots (closest to the hidden evaluation), using any OpenAI-compatible e
 
 ```bash
 ollama pull llama3.2:latest
-export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.2:latest
+export LLM_BASE_URL=http://localhost:11434/v1 LLM_MODEL=llama3.2:latest LLM_TIMEOUT=300
 python -m harness.llm_buyer --n 30 --out outputs/llm_run.jsonl
 python -m harness.evaluate outputs/llm_run.jsonl
 ```
