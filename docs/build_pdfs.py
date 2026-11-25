@@ -20,8 +20,8 @@ sys.path.insert(0, str(ROOT))
 OUT = ROOT / "outputs/pdf"
 
 # ---- edit these before the final build ----------------------------------------------------------
-OFFICIAL_LINE = "Local benchmark; official evaluate.py results to follow."
-REPO_URL = ""  # e.g. "github.com/your-username/fairdeal"
+OFFICIAL_LINE = ""
+REPO_URL = "github.com/RameshwariS/fairdeal"  # e.g. "github.com/your-username/fairdeal"
 # --------------------------------------------------------------------------------------------------
 
 R = json.loads((ROOT / "outputs/results.json").read_text())
@@ -42,10 +42,13 @@ def negotiation_chart():
     from harness.buyers import Manipulator
     from harness.run import negotiate
     a = SellerAgent()
-    p = a.catalog.get("P031")
-    r = negotiate(a, Manipulator([("P031", 1)], p.price, p.price * 0.85))
+    sku = "S031"
+    p = a.catalog.get(sku)
+    if p is None:
+        raise ValueError(f"Showcase product {sku!r} is missing from {ROOT / 'data/store.csv'}")
+    r = negotiate(a, Manipulator([(sku, 1)], p.price, p.price * 0.85))
     floor = a.guard.unit_floor(p)
-    single = lambda m: [(i["sku"], i["qty"]) for i in m.get("items", [])] == [("P031", 1)]
+    single = lambda m: [(i["sku"], i["qty"]) for i in m.get("items", [])] == [(sku, 1)]
     sell = [(m["round"], m["price"]) for m in r["transcript"] if m["from"] == "seller" and m.get("price") and single(m)]
     buy = [(m["round"], m["price"]) for m in r["transcript"]
            if m["from"] == "buyer" and isinstance(m.get("price"), (int, float)) and single(m) and m.get("type") == "offer"]

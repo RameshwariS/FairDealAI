@@ -96,26 +96,26 @@ td.us { font-weight: 600; color: var(--ink); }
 <text x="366.0" y="28" class="trick">Flipkart quote</text>
 <line x1="438.0" x2="438.0" y1="56" y2="284" class="trickline"/>
 <text x="442.0" y="43" class="trick">“2 more units, same price”</text>
-<line x1="58" x2="742" y1="155.5" y2="155.5" class="floor"/><text x="738" y="170.5" class="floorlab" text-anchor="end">policy floor ₹2,647: never crossed</text>
-<polyline points="134.0,246.4 210.0,227.6 362.0,190.0 514.0,152.4 590.0,133.6" class="buyer"/>
-<circle cx="134.0" cy="246.4" r="3.4" class="buyerdot"/>
-<circle cx="210.0" cy="227.6" r="3.4" class="buyerdot"/>
-<circle cx="362.0" cy="190.0" r="3.4" class="buyerdot"/>
-<circle cx="514.0" cy="152.4" r="3.4" class="buyerdot"/>
-<circle cx="590.0" cy="133.6" r="3.4" class="buyerdot"/>
-<circle cx="286.0" cy="265.2" r="4" class="fake"/><text x="295.0" y="269.2" class="fakelab">“accepts” ₹1,412: refused</text>
-<polyline points="58.0,77.2 134.0,79.8 210.0,85.4 286.0,92.6 362.0,102.0 514.0,124.1 590.0,133.6" class="seller"/>
-<circle cx="58.0" cy="77.2" r="3.6" class="sellerdot"/>
-<circle cx="134.0" cy="79.8" r="3.6" class="sellerdot"/>
-<circle cx="210.0" cy="85.4" r="3.6" class="sellerdot"/>
-<circle cx="286.0" cy="92.6" r="3.6" class="sellerdot"/>
-<circle cx="362.0" cy="102.0" r="3.6" class="sellerdot"/>
-<circle cx="514.0" cy="124.1" r="3.6" class="sellerdot"/>
-<circle cx="590.0" cy="133.6" r="3.6" class="sellerdot"/>
-<circle cx="590.0" cy="133.6" r="8" class="deal"/><text x="602.0" y="137.6" class="deallab">deal ₹2,894</text>
-<text x="64.0" y="69.2" class="seriesS">FairDeal AI</text>
-<text x="140.0" y="262.4" class="seriesB">manipulator bot</text>
-</svg><figcaption><b>Six tricks, one price path.</b> A real run against our manipulator bot (Steel Water Bottle, list ₹3,529). Dashed lines mark its tricks; none moved our price, which closed at ₹2,894, a ₹1,045 profit.</figcaption></figure>
+<line x1="58" x2="742" y1="230.8" y2="230.8" class="floor"/><text x="738" y="245.8" class="floorlab" text-anchor="end">policy floor ₹1,799: never crossed</text>
+<polyline points="134.0,292.5 210.0,279.8 362.0,254.3 514.0,228.7 590.0,215.9" class="buyer"/>
+<circle cx="134.0" cy="292.5" r="3.4" class="buyerdot"/>
+<circle cx="210.0" cy="279.8" r="3.4" class="buyerdot"/>
+<circle cx="362.0" cy="254.3" r="3.4" class="buyerdot"/>
+<circle cx="514.0" cy="228.7" r="3.4" class="buyerdot"/>
+<circle cx="590.0" cy="215.9" r="3.4" class="buyerdot"/>
+<circle cx="286.0" cy="305.3" r="4" class="fake"/><text x="295.0" y="309.3" class="fakelab">“accepts” ₹960: refused</text>
+<polyline points="58.0,177.5 134.0,179.3 210.0,183.1 286.0,188.0 362.0,194.4 514.0,209.4 590.0,215.9" class="seller"/>
+<circle cx="58.0" cy="177.5" r="3.6" class="sellerdot"/>
+<circle cx="134.0" cy="179.3" r="3.6" class="sellerdot"/>
+<circle cx="210.0" cy="183.1" r="3.6" class="sellerdot"/>
+<circle cx="286.0" cy="188.0" r="3.6" class="sellerdot"/>
+<circle cx="362.0" cy="194.4" r="3.6" class="sellerdot"/>
+<circle cx="514.0" cy="209.4" r="3.6" class="sellerdot"/>
+<circle cx="590.0" cy="215.9" r="3.6" class="sellerdot"/>
+<circle cx="590.0" cy="215.9" r="8" class="deal"/><text x="602.0" y="219.9" class="deallab">deal ₹1,967</text>
+<text x="64.0" y="169.5" class="seriesS">FairDeal AI</text>
+<text x="140.0" y="308.5" class="seriesB">manipulator bot</text>
+</svg><figcaption><b>Six tricks, one price path.</b> A real run against our manipulator bot (Strydo Lightweight Track Pants, Grey, list ₹2,399). Dashed lines mark its tricks; none moved our price, which closed at ₹1,967, a ₹821 profit.</figcaption></figure>
 
   <p><b class="lead">FairDeal AI</b> is a seller agent for small online stores. It negotiates price and bundles with AI buyer agents, keeps margin, never breaks store policy, and never says anything the store data can't back up.</p>
   <h2>The problem</h2>
@@ -132,20 +132,20 @@ td.us { font-weight: 600; color: var(--ink); }
   <p>200 held-out negotiations against four kinds of buyer bots, beside a naive “agreeable” seller on the same scenarios. Margin kept = (price − cost) ÷ (list − cost).</p>
   <table>
     <tr><th></th><th class="num">FairDeal AI</th><th class="num">Naive seller</th></tr>
-    <tr><td>Policy violations</td><td class="num us">0</td><td class="num">298</td></tr>
-    <tr><td>Below-cost deals</td><td class="num us">0</td><td class="num">69</td></tr>
+    <tr><td>Policy violations</td><td class="num us">0</td><td class="num">314</td></tr>
+    <tr><td>Below-cost deals</td><td class="num us">0</td><td class="num">36</td></tr>
     <tr><td>Truthfulness errors</td><td class="num us">0</td><td class="num">0</td></tr>
     <tr><td>Deadlocks</td><td class="num us">0%</td><td class="num">0%</td></tr>
-    <tr><td>Margin kept per deal</td><td class="num us">74%</td><td class="num">3%</td></tr>
-    <tr><td>Possible deals closed</td><td class="num us">78%</td><td class="num">100%</td></tr>
+    <tr><td>Margin kept per deal</td><td class="num us">78%</td><td class="num">29%</td></tr>
+    <tr><td>Possible deals closed</td><td class="num us">75%</td><td class="num">100%</td></tr>
     <tr><td>Red-team attacks defeated</td><td class="num us">22 of 22</td><td class="num">not tested</td></tr>
   </table>
-  <p class="note">Local benchmark; official evaluate.py results to follow.</p>
+  <p class="note"></p>
   <h2>Impact</h2>
   <p>Small sellers can open their stores to AI shopping agents without risking margin or trust. It understands Indian buyers (“15k”, “1.2 lakh”, Hinglish), and a replay page shows every decision.</p>
   <h2>Cost estimate</h2>
-  <p>The core path has no model calls: 0.13 ms per turn (p99 0.24 ms). Over HTTP, one process served 128 full negotiations per second, so a million negotiations take about $0.05 of server time on an AWS t3.small in Mumbai ($0.0224/hour). It ships as a Docker image with a small web API.</p>
+  <p>The core path has no model calls: 0.11 ms per turn (p99 0.23 ms). Over HTTP, one process served 139 full negotiations per second, so a million negotiations take about $0.04 of server time on an AWS t3.small in Mumbai ($0.0224/hour). It ships as a Docker image with a small web API.</p>
   <h2>Build summary</h2>
   <p>A standard-library Python core, and around it: a 10-round harness, rule-based, randomised and LLM buyer bots, an independent scorer, red-team and ablation suites, a tuning script, CI with 21 tests, and agent cards.</p>
-  
+  <div class="foot"><span>Code: github.com/RameshwariS/fairdeal</span></div>
 </section></body></html>
