@@ -5,6 +5,7 @@ truth-checked, see writer.py) and (b) the LLM buyer bots in harness/llm_buyer.py
 
     export LLM_BASE_URL=http://localhost:11434/v1   # Ollama
     export LLM_MODEL=llama3.2:latest
+    export LLM_TIMEOUT=300  # seconds; increase for slower local hardware
     export LLM_API_KEY=ollama                         # any string for Ollama
 """
 from __future__ import annotations
@@ -14,10 +15,11 @@ import os
 import requests
 
 
-def chat(messages, model=None, base_url=None, api_key=None, temperature=0.7, timeout=60) -> str:
+def chat(messages, model=None, base_url=None, api_key=None, temperature=0.7, timeout=None) -> str:
     base_url = (base_url or os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")).rstrip("/")
     model = model or os.getenv("LLM_MODEL", "llama3.2:latest")
     api_key = api_key or os.getenv("LLM_API_KEY", "ollama")
+    timeout = float(timeout if timeout is not None else os.getenv("LLM_TIMEOUT", "300"))
     r = requests.post(f"{base_url}/chat/completions",
                       headers={"Authorization": f"Bearer {api_key}"},
                       json={"model": model, "messages": messages, "temperature": temperature},
