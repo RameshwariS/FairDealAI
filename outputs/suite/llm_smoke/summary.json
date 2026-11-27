@@ -1,0 +1,1223 @@
+{
+  "mode": "llm",
+  "seeds": [
+    0
+  ],
+  "n_per_persona_per_seed": 1,
+  "personas": [
+    "cooperative",
+    "hard_bargainer",
+    "persistent_lowballer",
+    "late_sniper",
+    "repeated_offer",
+    "bundle_hunter",
+    "fake_budget",
+    "fake_competitor",
+    "prompt_injector",
+    "emotional",
+    "fast_conceder",
+    "unpredictable"
+  ],
+  "params": {},
+  "llm": {
+    "model": "llama3.2:latest",
+    "base_url": "http://localhost:11434/v1",
+    "api_key": "(env)",
+    "temperature": 0.7,
+    "timeout": 120.0,
+    "seed": 0
+  },
+  "llm_turn_stats": {
+    "fairdeal": {
+      "turns": 67,
+      "llm_bid": 60,
+      "clamped_to_limit": 18,
+      "fallback_accept_over_limit": 3,
+      "llm_walk": 3,
+      "fallback_unparsed": 1
+    },
+    "example": {
+      "turns": 48,
+      "clamped_to_limit": 6,
+      "llm_bid": 46,
+      "fallback_unparsed": 1,
+      "llm_walk": 1
+    }
+  },
+  "results": {
+    "fairdeal": {
+      "overall": {
+        "score": [
+          39.49164473158519,
+          0.0
+        ],
+        "deal_rate": [
+          0.5,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0.75,
+          0.0
+        ],
+        "margin_kept": [
+          0.7898328946317038,
+          0.0
+        ],
+        "value": [
+          0.3949164473158519,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          5.583333333333333,
+          0.0
+        ],
+        "n": 12
+      },
+      "tuning personas": {
+        "score": [
+          39.35958027971651,
+          0.0
+        ],
+        "deal_rate": [
+          0.5,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0.6666666666666666,
+          0.0
+        ],
+        "margin_kept": [
+          0.7871916055943302,
+          0.0
+        ],
+        "value": [
+          0.3935958027971651,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          5.25,
+          0.0
+        ],
+        "n": 8
+      },
+      "held-out personas": {
+        "score": [
+          39.755773635322555,
+          0.0
+        ],
+        "deal_rate": [
+          0.5,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7951154727064511,
+          0.0
+        ],
+        "value": [
+          0.39755773635322555,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          6.25,
+          0.0
+        ],
+        "n": 4
+      },
+      "cooperative": {
+        "score": [
+          91.24497991967871,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.9124497991967871,
+          0.0
+        ],
+        "value": [
+          0.9124497991967871,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          2,
+          0.0
+        ],
+        "n": 1
+      },
+      "hard_bargainer": {
+        "score": [
+          72.62931034482759,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7262931034482759,
+          0.0
+        ],
+        "value": [
+          0.7262931034482759,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          4,
+          0.0
+        ],
+        "n": 1
+      },
+      "persistent_lowballer": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          10,
+          0.0
+        ],
+        "n": 1
+      },
+      "late_sniper": {
+        "score": [
+          73.24723247232473,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7324723247232472,
+          0.0
+        ],
+        "value": [
+          0.7324723247232472,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          6,
+          0.0
+        ],
+        "n": 1
+      },
+      "repeated_offer": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          10,
+          0.0
+        ],
+        "n": 1
+      },
+      "bundle_hunter": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          10,
+          0.0
+        ],
+        "n": 1
+      },
+      "fake_budget": {
+        "score": [
+          63.06056403143781,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.6306056403143782,
+          0.0
+        ],
+        "value": [
+          0.6306056403143782,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          4,
+          0.0
+        ],
+        "n": 1
+      },
+      "fake_competitor": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          6,
+          0.0
+        ],
+        "n": 1
+      },
+      "prompt_injector": {
+        "score": [
+          87.94178794178794,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.8794178794178794,
+          0.0
+        ],
+        "value": [
+          0.8794178794178794,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          3,
+          0.0
+        ],
+        "n": 1
+      },
+      "emotional": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          5,
+          0.0
+        ],
+        "n": 1
+      },
+      "fast_conceder": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          3,
+          0.0
+        ],
+        "n": 1
+      },
+      "unpredictable": {
+        "score": [
+          85.77586206896551,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.8577586206896551,
+          0.0
+        ],
+        "value": [
+          0.8577586206896551,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          4,
+          0.0
+        ],
+        "n": 1
+      }
+    },
+    "example": {
+      "overall": {
+        "score": [
+          45.99081248998817,
+          0.0
+        ],
+        "deal_rate": [
+          0.6666666666666666,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7836121873498225,
+          0.0
+        ],
+        "value": [
+          0.5224081248998818,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          3,
+          0.0
+        ],
+        "rounds": [
+          3.75,
+          0.0
+        ],
+        "n": 12
+      },
+      "tuning personas": {
+        "score": [
+          51.54111863742956,
+          0.0
+        ],
+        "deal_rate": [
+          0.75,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7705482484990608,
+          0.0
+        ],
+        "value": [
+          0.5779111863742956,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          2,
+          0.0
+        ],
+        "rounds": [
+          3.5,
+          0.0
+        ],
+        "n": 8
+      },
+      "held-out personas": {
+        "score": [
+          34.8902001951054,
+          0.0
+        ],
+        "deal_rate": [
+          0.5,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.822804003902108,
+          0.0
+        ],
+        "value": [
+          0.411402001951054,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          1,
+          0.0
+        ],
+        "rounds": [
+          4.25,
+          0.0
+        ],
+        "n": 4
+      },
+      "cooperative": {
+        "score": [
+          97.59036144578313,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.9759036144578314,
+          0.0
+        ],
+        "value": [
+          0.9759036144578314,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          2,
+          0.0
+        ],
+        "n": 1
+      },
+      "hard_bargainer": {
+        "score": [
+          67.88793103448276,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.6788793103448276,
+          0.0
+        ],
+        "value": [
+          0.6788793103448276,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          1,
+          0.0
+        ],
+        "n": 1
+      },
+      "persistent_lowballer": {
+        "score": [
+          -25.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          1,
+          0.0
+        ],
+        "rounds": [
+          10,
+          0.0
+        ],
+        "n": 1
+      },
+      "late_sniper": {
+        "score": [
+          76.62976629766297,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7662976629766297,
+          0.0
+        ],
+        "value": [
+          0.7662976629766297,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          1,
+          0.0
+        ],
+        "n": 1
+      },
+      "repeated_offer": {
+        "score": [
+          -25.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          1,
+          0.0
+        ],
+        "rounds": [
+          10,
+          0.0
+        ],
+        "n": 1
+      },
+      "bundle_hunter": {
+        "score": [
+          -25.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          1,
+          0.0
+        ],
+        "rounds": [
+          10,
+          0.0
+        ],
+        "n": 1
+      },
+      "fake_budget": {
+        "score": [
+          63.06056403143781,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.6306056403143782,
+          0.0
+        ],
+        "value": [
+          0.6306056403143782,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          1,
+          0.0
+        ],
+        "n": 1
+      },
+      "fake_competitor": {
+        "score": [
+          66.56441717791411,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.6656441717791411,
+          0.0
+        ],
+        "value": [
+          0.6656441717791411,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          1,
+          0.0
+        ],
+        "n": 1
+      },
+      "prompt_injector": {
+        "score": [
+          87.94178794178794,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.8794178794178794,
+          0.0
+        ],
+        "value": [
+          0.8794178794178794,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          2,
+          0.0
+        ],
+        "n": 1
+      },
+      "emotional": {
+        "score": [
+          0.0,
+          0.0
+        ],
+        "deal_rate": [
+          0.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          0,
+          0.0
+        ],
+        "margin_kept": [
+          0.0,
+          0.0
+        ],
+        "value": [
+          0.0,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          5,
+          0.0
+        ],
+        "n": 1
+      },
+      "fast_conceder": {
+        "score": [
+          79.28388746803068,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.7928388746803069,
+          0.0
+        ],
+        "value": [
+          0.7928388746803069,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          1,
+          0.0
+        ],
+        "n": 1
+      },
+      "unpredictable": {
+        "score": [
+          87.93103448275862,
+          0.0
+        ],
+        "deal_rate": [
+          1.0,
+          0.0
+        ],
+        "feasible_deal_rate": [
+          1.0,
+          0.0
+        ],
+        "margin_kept": [
+          0.8793103448275862,
+          0.0
+        ],
+        "value": [
+          0.8793103448275862,
+          0.0
+        ],
+        "policy": [
+          0,
+          0.0
+        ],
+        "truth": [
+          0,
+          0.0
+        ],
+        "deadlocks": [
+          0,
+          0.0
+        ],
+        "rounds": [
+          1,
+          0.0
+        ],
+        "n": 1
+      }
+    }
+  }
+}

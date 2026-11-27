@@ -1,0 +1,13 @@
+Type a JSON message or plain text, e.g.  I want the <product name>, or {"items":[{"sku":"...","qty":1}],"price":...}
+you r1> seller [offer] ₹5,070  Zentrail Puffer Jacket, Navy lists at ₹5,199. I can offer it for ₹5,070. That is the total price, with no extra fees.
+   detected: - | engine: opening
+you r2> seller [counter] ₹4,989  I can only negotiate price, quantity and bundles for products in our store. I can do ₹4,989 for Zentrail Puffer Jacket, Navy.
+   detected: injection | engine: counter
+you r3> seller [counter] ₹4,885  I can't verify prices from other stores, so I price from our own costs and policy. I can do ₹4,885 for Zentrail Puffer Jacket, Navy.
+   detected: competitor_quote | engine: counter
+you r4> seller [counter] ₹4,729  Just to be clear, that isn't a price I offered. I can do ₹4,729 for Zentrail Puffer Jacket, Navy.
+   detected: fake_accept | engine: counter
+you r5> seller [counter] ₹4,573  Thanks for your offer. I can do ₹4,573 for Zentrail Puffer Jacket, Navy.
+   detected: - | engine: counter
+you r6> seller [accept] ₹4,500  Deal: Zentrail Puffer Jacket, Navy for ₹4,500, all-inclusive. Thank you!
+   detected: - | engine: buyer offer acceptable

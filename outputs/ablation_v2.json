@@ -1,0 +1,470 @@
+[
+  {
+    "config": "v1 (all fixes off)",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": false
+    },
+    "official_mean": 49.92006696851886,
+    "official_std": 2.2766998984535953,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.970809021800115,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 49.21841676387907,
+    "suite_heldout": 32.12983586790226,
+    "suite_heldout_std": 2.548370144045059,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": -1.4461486522195435,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 36.732340761511395
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 31
+  },
+  {
+    "config": "F1 basket_growth",
+    "params": {
+      "basket_growth": true,
+      "implied_bid_floor": false
+    },
+    "official_mean": 49.92006696851886,
+    "official_std": 2.2766998984535953,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.970809021800115,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 49.21841676387907,
+    "suite_heldout": 44.22136001235503,
+    "suite_heldout_std": 3.223532374999503,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": 46.91994792559155,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 36.732340761511395
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 8
+  },
+  {
+    "config": "F2 implied_bid_floor",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": true
+    },
+    "official_mean": 49.920693534934905,
+    "official_std": 2.2776798117640764,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.9751949867124,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 49.21841676387907,
+    "suite_heldout": 32.12983586790226,
+    "suite_heldout_std": 2.548370144045059,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": -1.4461486522195435,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 36.732340761511395
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 31
+  },
+  {
+    "config": "F3 r10_fit_gate=0.02",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": false,
+      "r10_fit_gate": 0.02
+    },
+    "official_mean": 47.630761766971666,
+    "official_std": 1.647886180022577,
+    "official_heldout_3_6": 47.08579102033781,
+    "official_seeds": [
+      49.84412899092825,
+      49.604837585343205,
+      45.623201711178965,
+      47.287210625345004,
+      46.68365367322262,
+      48.20017785538153,
+      46.17212192740209
+    ],
+    "suite_tuning": 46.92099068789564,
+    "suite_heldout": 29.60603014656558,
+    "suite_heldout_std": 0.9996111143890071,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 34.325099798040725,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 29.85099090900944,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": -1.1683708744417658,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 23.405088802034783,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 37.28789631706695
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 24
+  },
+  {
+    "config": "F3 r10_fit_gate=0.05",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": false,
+      "r10_fit_gate": 0.05
+    },
+    "official_mean": 49.92006696851886,
+    "official_std": 2.2766998984535953,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.970809021800115,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 48.36935035089433,
+    "suite_heldout": 29.536585702121133,
+    "suite_heldout_std": 1.1197487011026934,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 29.85099090900944,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": -1.4461486522195435,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 32.61105997235228,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 37.28789631706695
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 27
+  },
+  {
+    "config": "F4 hold_when_static",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": false,
+      "hold_when_static": true
+    },
+    "official_mean": 49.92765557961308,
+    "official_std": 2.275599349833327,
+    "official_heldout_3_6": 49.21194826673435,
+    "official_seeds": [
+      52.97735009976977,
+      52.23578325980206,
+      47.432662630782346,
+      48.65265444253941,
+      48.259755601658725,
+      51.67155631660877,
+      48.263826706130494
+    ],
+    "suite_tuning": 48.10217769776143,
+    "suite_heldout": 31.732242436851664,
+    "suite_heldout_std": 2.6168547439369267,
+    "per_persona": {
+      "cooperative": 73.39818698509909,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.93221950363933,
+      "repeated_offer": 40.920036733398526,
+      "bundle_hunter": -1.4461486522195435,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 34.98929466135917
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 31
+  },
+  {
+    "config": "F5 accept_exhausted",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": false,
+      "accept_exhausted": true
+    },
+    "official_mean": 49.92006696851886,
+    "official_std": 2.2766998984535953,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.970809021800115,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 50.307910378161836,
+    "suite_heldout": 32.07485917431319,
+    "suite_heldout_std": 2.4927410990966554,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": -1.4461486522195435,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 69.75672937127504,
+      "unpredictable": 36.512433987155134
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 31
+  },
+  {
+    "config": "F6 taint_keeps_bid",
+    "params": {
+      "basket_growth": false,
+      "implied_bid_floor": false,
+      "taint_keeps_bid": true
+    },
+    "official_mean": 49.929250500585255,
+    "official_std": 2.3052974404869517,
+    "official_heldout_3_6": 49.283415911891716,
+    "official_seeds": [
+      52.93938235541026,
+      52.254983563072614,
+      47.17672393804705,
+      48.670682316888744,
+      47.93202091686099,
+      51.68692779333088,
+      48.84403262048625
+    ],
+    "suite_tuning": 49.21841676387907,
+    "suite_heldout": 38.98655966441515,
+    "suite_heldout_std": 2.717661731785899,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": 25.98074653383202,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 36.732340761511395
+    },
+    "policy": 0,
+    "truth": 41,
+    "deadlocks": 7
+  },
+  {
+    "config": "F1+F2 (kept so far)",
+    "params": {},
+    "official_mean": 49.920693534934905,
+    "official_std": 2.2776798117640764,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.9751949867124,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 49.21841676387907,
+    "suite_heldout": 44.22136001235503,
+    "suite_heldout_std": 3.223532374999503,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": 46.91994792559155,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 36.732340761511395
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 8
+  },
+  {
+    "config": "F1+F2+F6",
+    "params": {
+      "taint_keeps_bid": true
+    },
+    "official_mean": 49.929250500585255,
+    "official_std": 2.3052974404869517,
+    "official_heldout_3_6": 49.283415911891716,
+    "official_seeds": [
+      52.93938235541026,
+      52.254983563072614,
+      47.17672393804705,
+      48.670682316888744,
+      47.93202091686099,
+      51.68692779333088,
+      48.84403262048625
+    ],
+    "suite_tuning": 49.21841676387907,
+    "suite_heldout": 44.22136001235503,
+    "suite_heldout_std": 3.223532374999503,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": 46.91994792559155,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 61.040780457012914,
+      "unpredictable": 36.732340761511395
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 7
+  },
+  {
+    "config": "F1+F2+F5",
+    "params": {
+      "accept_exhausted": true
+    },
+    "official_mean": 49.920693534934905,
+    "official_std": 2.2776798117640764,
+    "official_heldout_3_6": 49.20327698943639,
+    "official_seeds": [
+      52.9751949867124,
+      52.23578325980206,
+      47.4207685402843,
+      48.64910872045311,
+      48.254086667418356,
+      51.656551588495034,
+      48.25336098137905
+    ],
+    "suite_tuning": 50.307910378161836,
+    "suite_heldout": 44.166383318765966,
+    "suite_heldout_std": 3.1568132334134136,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": 46.91994792559155,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 69.75672937127504,
+      "unpredictable": 36.512433987155134
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 8
+  },
+  {
+    "config": "F1+F2+F5+F6",
+    "params": {
+      "accept_exhausted": true,
+      "taint_keeps_bid": true
+    },
+    "official_mean": 49.929250500585255,
+    "official_std": 2.3052974404869517,
+    "official_heldout_3_6": 49.283415911891716,
+    "official_seeds": [
+      52.93938235541026,
+      52.254983563072614,
+      47.17672393804705,
+      48.670682316888744,
+      47.93202091686099,
+      51.68692779333088,
+      48.84403262048625
+    ],
+    "suite_tuning": 50.307910378161836,
+    "suite_heldout": 44.166383318765966,
+    "suite_heldout_std": 3.1568132334134136,
+    "per_persona": {
+      "cooperative": 73.34733310091187,
+      "hard_bargainer": 36.70600593171278,
+      "persistent_lowballer": 38.89362227176826,
+      "late_sniper": 40.77954712768948,
+      "repeated_offer": 49.90080314652688,
+      "bundle_hunter": 46.91994792559155,
+      "fake_budget": 48.83321193500044,
+      "fake_competitor": 45.621985991869224,
+      "prompt_injector": 39.40359127623021,
+      "emotional": 52.45360423462769,
+      "fast_conceder": 69.75672937127504,
+      "unpredictable": 36.512433987155134
+    },
+    "policy": 0,
+    "truth": 0,
+    "deadlocks": 7
+  }
+]

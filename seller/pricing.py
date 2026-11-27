@@ -42,6 +42,16 @@ class Params:
     max_recip_step: float = 0.12   # most we concede in one round because the buyer moved
     min_step: float = 0.03         # smallest per-round concession (x units) above end_x
     price_step: float = 1.0        # quote whole rupees (always rounded UP)
+    # ---- v2 fixes (see ARCHITECTURE.md "v2 changes" and outputs/ABLATION_V2.md); False/0 = v1 behaviour ----
+    basket_growth: bool = True     # kit adapter: a buyer may re-add / add in-stock lines it really bids on
+    implied_bid_floor: bool = True   # kit adapter: never counter below a bid the buyer made outside unit_price
+    r10_fit_gate: float = 0.0      # round-10 offer only if the projection fits the bids (RMS, x units); 0 = off
+    hold_when_static: bool = False  # buyer didn't move since its best bid: concede only min_step this round
+    static_eps: float = 0.005      # "didn't move" = less than this share of list price
+    taint_keeps_bid: bool = False  # kit adapter: a bid with slipped-in lines still counts for the real basket
+    accept_exhausted: bool = False  # buyer conceded a lot, then stopped: its bid is its limit, take it (if feasible)
+    exhausted_move: float = 0.10   # ... "a lot" = its offers rose by this share of list price
+    exhausted_gap: float = 0.06    # ... only if our offer is within this share of list of theirs
 
 
 @dataclass
@@ -99,11 +109,15 @@ class Negotiation:
         return start - (start - self.p.end_x) * (t ** self.p.boulware)
 
     def projected_limit(self):
+        fit = self._fit()
+        return None if fit is None else fit[0]
+
+    def _fit(self):
         """Where the buyer's offers are heading by the last round, in x units.
 
         Fits offers to  x(r) = a + (L - a) * (r / T) ** e  for a few curve shapes e (a buyer that
-        concedes evenly, early or late) and returns L from the best fit. Needs 3+ offers on this
-        basket. Only ever used to LOWER our round-9 offer toward a price the buyer can reach."""
+        concedes evenly, early or late) and returns (L, rms residual) from the best fit. Needs 3+ offers on
+        this basket. Only ever used to LOWER our round-9 offer toward a price the buyer can reach."""
         pts = list(zip(self.buyer_rounds, self.buyer_x))
         if len(pts) < 3:
             return None
@@ -129,7 +143,8 @@ class Negotiation:
                 best = (err, L)
         if best is None:
             return None
-        return max(best[1], max(self.buyer_x))  # never predict a limit below what they already offered
+        # never predict a limit below what they already offered
+        return max(best[1], max(self.buyer_x)), math.sqrt(best[0] / len(pts))
 
     def _firm_repeats(self) -> int:
         """How many times in a row the buyer has repeated (within 0.5%) the same offer."""
@@ -180,6 +195,12 @@ class Negotiation:
             target = min(target, self.our_x)       # never go back up
             if self.our_x > self.p.end_x:          # always visibly move while we still have room
                 target = min(target, max(self.p.end_x, self.our_x - self.p.min_step))
+        if (self.p.hold_when_static and offer_total is not None and len(self.buyer_x) >= 2
+                and self.our_x is not None and not penultimate and not last_turn):
+            # opponent modelling: a buyer whose offers didn't improve gets only the minimum visible step,
+            # so time alone doesn't carry us down to the floor (offers, not words, still decide)
+            if self.buyer_x[-1] - max(self.buyer_x[:-1]) < self.p.static_eps * self._scale():
+                target = max(target, self.our_x - self.p.min_step)
         target = max(target, 0.0)
         firm = self._firm_repeats() if rnd >= self.p.firm_from_round else 0
         if firm >= 1 and bx is not None and bx >= 0 and self.our_x is not None:
@@ -202,12 +223,16 @@ class Negotiation:
                     or our_last - bx <= self.p.close_gap
                     or (self.our_total is not None and self.our_total - offer_total <= self.p.close_gap_abs * list_total)
                     or next_total - offer_total <= self.p.close_gap_abs * list_total  # our counter would be ~their offer
-                    or (self.p.late_accept and (last_turn or (penultimate and bx >= 0)))):
+                    or (self.p.late_accept and (last_turn or (penultimate and bx >= 0)))
+                    or self._exhausted(rnd, bx, offer_total, list_total)):
                 return self._close("accept", offer_total, "buyer offer acceptable")
 
         # ---- final turn: we must not leave it open (deadlock = lost points) ----
         if last_turn:
-            limit = self.projected_limit() if self.p.project_limit else None
+            fit = self._fit() if self.p.project_limit else None
+            limit = fit[0] if fit else None
+            if fit and self.p.r10_fit_gate > 0 and fit[1] > self.p.r10_fit_gate:
+                limit = None  # their offers don't follow a curve: an extrapolated last offer is a deadlock risk
             if limit is not None and limit >= 0:
                 # their own concessions say they can reach a price we may sell at: one last offer
                 x = max(0.0, min(self.our_x if self.our_x is not None else 1.0, limit - self.p.project_margin))
@@ -225,6 +250,16 @@ class Negotiation:
 
         return self._offer(target, next_total, final=penultimate,
                            reason="opening" if self.our_x is None else "counter")
+
+    def _exhausted(self, rnd, bx, offer_total, list_total) -> bool:
+        """End-game rule from opponent modelling: the buyer moved a lot, then stopped moving, and its feasible
+        offer is close to ours. Its concessions say this is its limit; countering again risks losing it."""
+        if not self.p.accept_exhausted or rnd < 3 or bx < 0 or len(self.buyer_x) < 3 or self.our_total is None:
+            return False
+        sc = self._scale()
+        stopped = self.buyer_x[-1] - max(self.buyer_x[:-1]) < self.p.static_eps * sc
+        moved = max(self.buyer_x[:-1]) - self.buyer_x[0] >= self.p.exhausted_move * sc
+        return stopped and moved and self.our_total - offer_total <= self.p.exhausted_gap * list_total
 
     def _offer(self, x, total, final=False, reason=""):
         assert self.g.check(self.lines, total).ok, "engine produced an out-of-policy offer"
