@@ -232,3 +232,22 @@ def test_accept_with_a_different_number_in_text_is_not_a_deal():
                  {"text": f"Great, I accept your offer of {round(lst * 0.25)}!"}])
     assert outs[1]["type"] != "accept"
     assert "isn't a price I offered" in outs[1]["text"]
+
+
+def test_free_text_tolerates_typos_but_not_ambiguity():
+    c = SellerAgent().catalog
+    for t in ("I want the Zentrail Puffer Jacket, Namvy", "Zentrain Puffer Jacet navy",
+              "I want Zentrail Puffer Jacket", "puffer jacket please"):
+        assert [p.name for p in c.find_in_text(t)] == ["Zentrail Puffer Jacket, Navy"], t
+    for t in ("I want rain jacket", "I want a jacket", "what is your best price"):
+        assert c.find_in_text(t) == [], t  # several fits or none: ask, never guess
+
+
+def test_vague_ask_lists_choices_then_sku_starts_deal():
+    a = SellerAgent()
+    a.reset()
+    r = a.respond({"text": "I want Zentrail Jacket", "round": 1})
+    assert r["type"] == "info" and "S051" in r["text"] and "S055" in r["text"]
+    assert not any("truth_check" in e for e in a.log)
+    r = a.respond({"text": "S051 please", "round": 2})
+    assert r["type"] == "offer" and r["items"][0]["sku"] == "S051"

@@ -7,7 +7,9 @@ names not listed here, add them to the alias tables below.
 from __future__ import annotations
 
 import csv
+import difflib
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -84,7 +86,61 @@ class Catalog:
         for p in self.products.values():
             if p.sku.lower() in low.split() or p.sku.lower() in low or p.name.lower() in low:
                 hits.append(p)
-        return hits
+        return hits or self._fuzzy_find(low)
+
+    def _fuzzy_find(self, low: str) -> list[Product]:
+        """Fallback for typos / partial names ("zentrain puffer jacet", "puffer jacket").
+
+        Names look like "Brand Model Type, Colour". A product qualifies when every
+        model/type word appears (typos allowed); brand and colour only add score.
+        Returns a product only when it is the single best match - an ambiguous ask
+        ("rain jacket") returns nothing, so the seller asks instead of guessing.
+        """
+        words = set(re.findall(r"[a-z0-9]+", low))
+        if not words:
+            return []
+
+        def seen(tok: str) -> bool:
+            if tok in words:
+                return True
+            return len(tok) >= 4 and any(len(w) >= 3 and difflib.SequenceMatcher(None, tok, w).ratio() >= 0.8
+                                         for w in words)
+
+        scored = []
+        for p in self.products.values():
+            base, _, variant = p.name.lower().partition(",")
+            btoks, vtoks = re.findall(r"[a-z0-9]+", base), re.findall(r"[a-z0-9]+", variant)
+            core = btoks[1:]  # drop the brand
+            if not core or not all(seen(t) for t in core):
+                continue
+            brand_hit = seen(btoks[0])
+            if len(core) < 2 and not brand_hit:
+                continue  # one generic word ("jacket") is never enough
+            scored.append((len(core) + brand_hit + sum(seen(t) for t in vtoks), p))
+        if not scored:
+            return []
+        scored.sort(key=lambda x: -x[0])
+        if len(scored) > 1 and scored[1][0] == scored[0][0]:
+            return []
+        return [scored[0][1]]
+
+    def suggest(self, text: str) -> list[Product]:
+        """Products that fit every product word in a vague ask ("jacket", "zentrail jacket").
+
+        Used to offer choices when find_in_text can't pick one product. Words that
+        match no catalog word ("I", "want", "please") are ignored; typos are allowed.
+        """
+        vocab = {t for p in self.products.values() for t in re.findall(r"[a-z0-9]+", p.name.lower())}
+        keys = set()
+        for w in re.findall(r"[a-z0-9]+", text.lower()):
+            if w in vocab:
+                keys.add(w)
+            elif len(w) >= 4:
+                keys.update(difflib.get_close_matches(w, vocab, n=1, cutoff=0.8))
+        if not keys:
+            return []
+        hits = [p for p in self.products.values() if keys <= set(re.findall(r"[a-z0-9]+", p.name.lower()))]
+        return sorted(hits, key=lambda p: p.price)
 
     def alternatives(self, product: Product, max_total: float, floor_fn, k: int = 2) -> list[Product]:
         """In-stock products in the same category whose policy floor fits a budget."""

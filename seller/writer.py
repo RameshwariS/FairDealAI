@@ -60,7 +60,8 @@ class Writer:
 
     # ---------- composing ----------
     def compose(self, kind: str, lines=None, total=None, buyer_offer=None, notes=None,
-                alts=None, stock_lines=None, final=False) -> tuple[str, list]:
+                alts=None, stock_lines=None, final=False, choices=None,
+                more=0) -> tuple[str, list]:
         lines = lines or []
         notes = notes or []
         s = []
@@ -95,6 +96,11 @@ class Writer:
                 s.append(f"My best price stays {rs(total)} if you change your mind.")
         elif kind == "info":
             pass
+        if choices:
+            # names + SKUs only (no prices): the buyer hasn't picked a product yet
+            opts = "; ".join(f"{p.name} ({p.sku})" for p in choices)
+            tail = f" (and {more} more, so add the brand or model to narrow it down)" if more else ""
+            s.append(f"We have a few that match: {opts}{tail}. Which one would you like, and how many?")
         if alts:
             # names only: a price for a product not in this negotiation would be an unsupported claim
             opts = " and ".join(f"{p.name} ({p.sku})" for p in alts)
@@ -105,6 +111,8 @@ class Writer:
         text = " ".join(s).strip() or "How can I help? Tell me which product and quantity you need."
 
         extra = [total, list_total]
+        extra += [more] + [float(d) for p in list(choices or []) + list(alts or [])
+                           for d in re.findall(r"\d+", p.name + " " + p.sku)]
         extra += [self.c.get(l.sku).stock for l in stock_lines or []]
         allowed = self.allowed_numbers(lines + list(stock_lines or []), extra)
         problems = self.verify(text, allowed)

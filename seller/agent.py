@@ -137,7 +137,11 @@ class SellerAgent:
                 return self._out("info", rnd, None, None, self._text("info", notes=notes, alts=alts), ev,
                                  alts=alts)
         if not self.neg.lines:
-            text = self._text("info", notes=notes + ["Which product and how many would you like?"])
+            picks = [p for p in self.catalog.suggest(ev.text or "") if self.guard.available(p) >= 1]
+            if len(picks) > 1:
+                text = self._text("info", notes=notes, choices=picks[:5], more=max(0, len(picks) - 5))
+            else:
+                text = self._text("info", notes=notes + ["Which product and how many would you like?"])
             return self._out("info", rnd, None, None, text, ev)
         if ev.asked_stock:
             stock_lines = list(self.neg.lines)
