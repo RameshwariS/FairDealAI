@@ -7,7 +7,7 @@ policy violations   0   (baseline 0)
 truth violations    0   (baseline 0)
 deadlocks           0   (baseline 21)   (walked away: seller 44, buyer 6)
 rounds              7.4 on average
-latency             0.24 ms/turn, p95 0.35 ms
+latency             0.24 ms/turn, p95 0.37 ms
 SCORE               53.0   (baseline 48.5)
 
 by buyer                n   deals  margin  value  policy  truth  deadlocks  score
