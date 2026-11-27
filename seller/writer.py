@@ -71,10 +71,12 @@ class Writer:
             s.append(n)
         if kind == "offer":
             if total is not None and list_total and total < list_total - 0.005:
-                s.append(f"{d} lists at {rs(list_total)}. As a bundle I can offer it for {rs(total)}.")
+                is_bundle = len(lines) > 1 or sum(l.qty for l in lines) > 1
+                lead = "As a bundle I can offer it for" if is_bundle else "I can offer it for"
+                s.append(f"{d} lists at {rs(list_total)}. {lead} {rs(total)}.")
             else:
                 s.append(f"{d} is {rs(total)}.")
-            s.append("That is the full price, with no extra fees.")
+            s.append("That is the total price, with no extra fees.")
         elif kind == "counter":
             if buyer_offer is not None:
                 s.append("Thanks for your offer.")  # we never restate buyer numbers: every price we write is ours
