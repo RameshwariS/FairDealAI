@@ -7,7 +7,7 @@ policy violations   0   (baseline 0)
 truth violations    0   (baseline 0)
 deadlocks           0   (baseline 21)   (walked away: seller 44, buyer 6)
 rounds              7.4 on average
-latency             0.24 ms/turn, p95 0.37 ms
+latency             0.90 ms/turn, p95 1.40 ms
 SCORE               53.0   (baseline 48.5)
 
 by buyer                n   deals  margin  value  policy  truth  deadlocks  score
@@ -15,4 +15,4 @@ by buyer                n   deals  margin  value  policy  truth  deadlocks  scor
   hard_bargainer         70   0.73   0.63   0.46       0      0         0    45.8
   manipulator            70   0.70   0.59   0.41       0      0         0    41.4
 
-transcripts: /home/claude/review/latest/outputs/official_run.jsonl
+transcripts: /media/shruti/3E2AA2792AA22E39/web_dev/fairdeal/outputs/official_run.jsonl

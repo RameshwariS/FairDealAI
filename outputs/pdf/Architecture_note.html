@@ -67,7 +67,7 @@ td.us { font-weight: 600; color: var(--ink); }
 <section class="page arch">
   <header class="top">
     <div><div class="word" style="font-size:24pt">FairDeal AI<small>architecture note</small></div></div>
-    <div class="meta"><b>AgentX Challenge 2</b><br>Selling to Machines<br>Round 1</div>
+    <div class="meta"><b>Team Anvesha · TM-477D09BD93C</b><br>AgentX Challenge 2<br>Selling to Machines<br>Round 1</div>
   </header>
   <p class="thesis">AI reads and writes the conversation; code decides money. Every price, acceptance and walk-away comes from deterministic code, and a policy gate checks every message before it leaves the store.</p>
   <svg viewBox="0 0 760 236" class="pipe" role="img" aria-label="Seller pipeline">
@@ -113,14 +113,14 @@ td.us { font-weight: 600; color: var(--ink); }
 <tr><td style='width:38%'>Prompt injection (text, hidden fields, Unicode look-alikes, spoofed “SYSTEM”)</td><td>Unicode is normalised and every field scanned; nothing from buyer text reaches pricing.</td></tr>
 <tr><td style='width:38%'>Fake “you already agreed to ₹X”</td><td>A deal closes only at a price we actually offered.</td></tr>
 <tr><td style='width:38%'>Deadlock</td><td>Round 9 offer at the buyer&#x27;s projected limit; round 10 must accept, make a last offer the buyer can reach, or walk away.</td></tr>
-<tr><td style='width:38%'>Invented scarcity, urgency, fees; unsupported numbers</td><td>Banned phrases, no prices for products not in play, and a number-by-number truth check plus TraceWare.</td></tr>
+<tr><td style='width:38%'>Invented scarcity, urgency, fees; unsupported numbers</td><td>Banned phrases, no prices for products not in play, and a number-by-number deterministic truth check.</td></tr>
   </table>
   <h2>Fairness and red-team</h2>
   <p>Price depends only on the basket, the round and the buyer's offers: 200 of 200 buyer pairs with identical offers but different words got identical prices. 22 of 22 named attacks defeated, each run beside an honest twin making the same offers (manipulation gain 0).</p>
   <h2>Testing and ablation</h2>
-  <p>23 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. The kit's evaluate.py found two bugs our own tests had missed (a floating-point floor and stock booked for an accept we then blocked); both are fixed, with 0 violations across 1,470 official negotiations. An ablation study removed a walk-away rule that lost every last-minute buyer.</p>
-  <h2>Rezolve Labs capability used</h2>
-  <p><b class="lead">TraceWare commerce claim verification.</b> For every offer and accept, the seller records one <span class="sans">add_to_basket</span> action per line (SKU, name, quantity, unit price) and sends the reply text with those actions to TraceWare before replying. PASS or WARN replies go out as written; REGENERATE or BLOCK replies are replaced with a plain sentence built from the same actions. It runs alongside our own deterministic truth check, so a claim must satisfy two independent verifiers (<span class="sans">seller/traceware.py</span>).</p>
+  <p>40 pytest checks run in CI: 38 pass and 2 F6 leak regressions are expected failures while that mitigation remains disabled. The suite includes a 3,000-message fuzz and the red-team suite. The kit's evaluate.py found two bugs our own tests had missed (a floating-point floor and stock booked for an accept we then blocked); both are fixed, with 0 violations across 1,470 official negotiations. The v2 ablation kept basket growth and the implied bid floor, while rejecting settings that reduced held-out performance.</p>
+  <h2>TraceWare status</h2>
+  <p><b class="lead">Tested against a mock; Labs access pending.</b> The <span class="sans">seller/traceware.py</span> adapter is not validated against live Labs access, so no live TraceWare results are claimed.</p>
   <h2>Deployment, latency and cost</h2>
-  <p>A web API (<span class="sans">POST /negotiate</span>) ships as a Docker image. The core path makes no model calls: 0.11 ms per turn (p99 0.23 ms), 139 negotiations per second over HTTP, about $0.04 of AWS t3.small time per million negotiations. TraceWare adds one network call per offer.</p>
+  <p>A web API (<span class="sans">POST /negotiate</span>) ships as a Docker image. The core path makes no model calls: 0.11 ms per turn (p99 0.23 ms), 139 negotiations per second over HTTP, about $0.04 of AWS t3.small time per million negotiations.</p>
 </section></body></html>

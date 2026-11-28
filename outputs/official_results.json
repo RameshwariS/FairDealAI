@@ -9,7 +9,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 0.0,
-      "latency_ms": 0.25
+      "latency_ms": 1.17
     },
     "1": {
       "score": 52.2,
@@ -20,7 +20,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 1.0,
-      "latency_ms": 0.27
+      "latency_ms": 0.95
     },
     "2": {
       "score": 47.4,
@@ -31,7 +31,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 0.0,
-      "latency_ms": 0.24
+      "latency_ms": 0.96
     },
     "3": {
       "score": 48.6,
@@ -42,7 +42,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 1.0,
-      "latency_ms": 0.24
+      "latency_ms": 0.86
     },
     "4": {
       "score": 48.3,
@@ -53,7 +53,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 0.0,
-      "latency_ms": 0.24
+      "latency_ms": 0.8
     },
     "5": {
       "score": 51.7,
@@ -64,7 +64,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 1.0,
-      "latency_ms": 0.24
+      "latency_ms": 0.78
     },
     "6": {
       "score": 48.3,
@@ -75,7 +75,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 1.0,
-      "latency_ms": 0.28
+      "latency_ms": 0.71
     }
   },
   "baseline": {
@@ -88,7 +88,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 21.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.03
     },
     "1": {
       "score": 48.3,
@@ -99,7 +99,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 20.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.03
     },
     "2": {
       "score": 42.9,
@@ -110,7 +110,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 25.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.02
     },
     "3": {
       "score": 44.4,
@@ -121,7 +121,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 22.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.03
     },
     "4": {
       "score": 43.3,
@@ -132,7 +132,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 22.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.03
     },
     "5": {
       "score": 45.8,
@@ -143,7 +143,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 28.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.03
     },
     "6": {
       "score": 44.7,
@@ -154,7 +154,7 @@
       "policy_violations": 0.0,
       "truth_violations": 0.0,
       "deadlocks": 26.0,
-      "latency_ms": 0.01
+      "latency_ms": 0.03
     }
   },
   "summary": {
@@ -168,7 +168,7 @@
         "policy_violations": 0.0,
         "truth_violations": 0.0,
         "deadlocks": 0.0,
-        "latency_ms": 0.25
+        "latency_ms": 1.17
       },
       "baseline": {
         "score": 48.5,
@@ -179,7 +179,7 @@
         "policy_violations": 0.0,
         "truth_violations": 0.0,
         "deadlocks": 21.0,
-        "latency_ms": 0.01
+        "latency_ms": 0.03
       }
     },
     "held_out_mean_score": {

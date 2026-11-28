@@ -1,6 +1,6 @@
 # Ablation v2: each fix on/off
 
-Official = `ps2-selling-to-machines/evaluate.py` scoring, kit buyers, 210 negotiations × seeds 0-6. Suite = the 12 rule-based personas (`buyer_suite.py`), 30 each × seeds 0-2, scored with the kit's `score_one`/`summarise`. Held-out personas (late_sniper, emotional, bundle_hunter, unpredictable) were never used to choose settings. Violations and deadlocks are summed over all official and suite runs. Keep rule vs v1: official mean must not drop, held-out personas must not get worse, 0 violations.
+Official = `ps2-selling-to-machines/evaluate.py` scoring, kit buyers, 210 negotiations × seeds 0-6. Suite = the 12 rule-based personas (`buyer_suite.py`), 30 each × seeds 0-2, scored with the kit's `score_one`/`summarise`. Held-out personas (late_sniper, emotional, bundle_hunter, unpredictable) were never used to choose settings. Violations and deadlocks are summed over all official and suite runs. Keep rule vs v1: official mean must not drop, held-out personas must not get worse, 0 violations. F5 improves fast_conceder but slightly lowers the aggregate held-out score, so it remains a candidate and is disabled by default pending broader validation.
 
 | config | official mean ± std (0-6) | official held-out seeds 3-6 | suite tuning personas | suite held-out personas | policy | truth | deadlocks | verdict |
 |---|---|---|---|---|---|---|---|---|
@@ -10,12 +10,12 @@ Official = `ps2-selling-to-machines/evaluate.py` scoring, kit buyers, 210 negoti
 | F3 r10_fit_gate=0.02 | 47.63 ± 1.65 | 47.09 | 46.92 | 29.61 ± 1.00 | 0 | 0 | 24 | reject |
 | F3 r10_fit_gate=0.05 | 49.92 ± 2.28 | 49.20 | 48.37 | 29.54 ± 1.12 | 0 | 0 | 27 | reject |
 | F4 hold_when_static | 49.93 ± 2.28 | 49.21 | 48.10 | 31.73 ± 2.62 | 0 | 0 | 31 | reject |
-| F5 accept_exhausted | 49.92 ± 2.28 | 49.20 | 50.31 | 32.07 ± 2.49 | 0 | 0 | 31 | reject |
+| F5 accept_exhausted | 49.92 ± 2.28 | 49.20 | 50.31 | 32.07 ± 2.49 | 0 | 0 | 31 | candidate |
 | F6 taint_keeps_bid | 49.93 ± 2.31 | 49.28 | 49.22 | 38.99 ± 2.72 | 0 | 41 | 7 | reject |
 | F1+F2 (kept so far) | 49.92 ± 2.28 | 49.20 | 49.22 | 44.22 ± 3.22 | 0 | 0 | 8 | keep |
 | F1+F2+F6 | 49.93 ± 2.31 | 49.28 | 49.22 | 44.22 ± 3.22 | 0 | 0 | 7 | keep |
-| F1+F2+F5 | 49.92 ± 2.28 | 49.20 | 50.31 | 44.17 ± 3.16 | 0 | 0 | 8 | keep |
-| F1+F2+F5+F6 | 49.93 ± 2.31 | 49.28 | 50.31 | 44.17 ± 3.16 | 0 | 0 | 7 | keep |
+| F1+F2+F5 | 49.92 ± 2.28 | 49.20 | 50.31 | 44.17 ± 3.16 | 0 | 0 | 8 | candidate |
+| F1+F2+F5+F6 | 49.93 ± 2.31 | 49.28 | 50.31 | 44.17 ± 3.16 | 0 | 0 | 7 | candidate |
 
 ## Per persona (suite score, mean of seeds 0-2)
 

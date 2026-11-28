@@ -86,11 +86,6 @@ class SellerAgent:
                                            or ev.offer_total is None and ev.intent in ("question", "request")):
             self._llm_fill(ev)
         raw = ev.raw
-        if "max_rounds" in raw:
-            try:
-                self.neg.p.max_rounds = int(raw["max_rounds"])
-            except (TypeError, ValueError):
-                pass
         rnd = self._round(raw)
         notes, alts, stock_lines = [], [], []
 

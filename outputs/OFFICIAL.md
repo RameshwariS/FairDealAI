@@ -27,3 +27,19 @@
 | 6 | 48.3 | 44.7 | no |
 
 Held-out seeds 3-6: FairDeal AI **49.2** vs 44.5. Across all 7 seeds (1,470 negotiations): 0 violations, 4 deadlocks.
+
+## v1 vs v2 (FairDeal AI)
+
+v1 is the saved pre-v2 run in `outputs/baseline/official_results.json`; v2 is the run above. Scores use the same official evaluator and seeds.
+
+| seed | v1 | v2 | held out |
+|---|---:|---:|:---:|
+| 0 | 53 | 53 | no |
+| 1 | 52.2 | 52.2 | no |
+| 2 | 47.4 | 47.4 | no |
+| 3 | 48.6 | 48.6 | yes |
+| 4 | 48.3 | 48.3 | yes |
+| 5 | 51.7 | 51.7 | yes |
+| 6 | 48.3 | 48.3 | yes |
+| mean ± sample std | 49.93 ± 2.28 | 49.93 ± 2.28 | all |
+| held-out mean (seeds 3-6) | 49.23 | 49.23 | yes |

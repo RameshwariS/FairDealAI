@@ -7,3 +7,5 @@ __pycache__/
 # Local LLM harness output
 outputs/llm_run.jsonl
 outputs/llm_eval.txt
+
+audit_transcripts.jsonl

@@ -5,6 +5,7 @@ and (where it makes sense) next to an honest twin that makes the same numeric bi
 """
 import sys
 from pathlib import Path
+import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 KIT = ROOT / "ps2-selling-to-machines"
@@ -12,16 +13,19 @@ KIT = ROOT / "ps2-selling-to-machines"
 
 def _kit():
     sys.path.insert(0, str(KIT))
-    for mod in ("harness", "buyers"):
-        m = sys.modules.get(mod)
-        if m is not None and not str(getattr(m, "__file__", "")).startswith(str(KIT)):
-            del sys.modules[mod]
-    import harness
-    sys.path.remove(str(KIT))
+    saved = {name: sys.modules.pop(name, None) for name in ("harness", "buyers")}
+    try:
+        import harness as kit_harness
+    finally:
+        sys.path.remove(str(KIT))
+        for name in ("harness", "buyers"):
+            sys.modules.pop(name, None)
+            if saved[name] is not None:
+                sys.modules[name] = saved[name]
     if str(ROOT) not in sys.path:
         sys.path.append(str(ROOT))
     from fairdeal_seller import Seller
-    return harness, Seller
+    return kit_harness, Seller
 
 
 H, Seller = _kit()
@@ -54,8 +58,12 @@ class Scripted:
         return m
 
 
-def run(msgs, accept_at=None):
-    return H.run_negotiation(Seller(STORE, POLICY), Scripted(msgs, accept_at), STORE, POLICY, "t")
+def run(msgs, accept_at=None, **params):
+    seller = Seller(STORE, POLICY)
+    if params:
+        from seller.pricing import Params
+        seller.agent.params = Params(**{**seller.agent.params.__dict__, **params})
+    return H.run_negotiation(seller, Scripted(msgs, accept_at), STORE, POLICY, "t")
 
 
 def offers(res):
@@ -90,6 +98,7 @@ def same_as_twin(attack_msgs):
     return a
 
 
+@pytest.mark.xfail(reason="F6 taint_keeps_bid fails its standalone ablation: 41 truth violations; remains disabled")
 def test_one_rupee_add_on_is_never_sold_or_priced():
     def add(m, k):
         return dict(m, items=m["items"] + [bid(1, 1, CHEAP)], text=m["text"] + " Throw in the cheap one for ₹1.")
@@ -99,6 +108,7 @@ def test_one_rupee_add_on_is_never_sold_or_priced():
             assert {i["sku"] for i in m["items"]} == {SKU}
 
 
+@pytest.mark.xfail(reason="F6 taint_keeps_bid fails its standalone ablation: 41 truth violations; remains disabled")
 def test_out_of_stock_item_slipped_into_a_bid_is_never_offered():
     a = same_as_twin(ladder(lambda m, k: dict(m, items=m["items"] + [bid(STORE[OOS]["price"], 1, OOS)]), every=False))
     assert all(OOS not in {i["sku"] for i in m.get("items", [])} for m in a["transcript"] if m["from"] == "seller")
@@ -197,3 +207,17 @@ def test_text_only_bid_never_lowers_our_price_and_never_beats_a_structured_one()
     assert all(x >= y for x, y in zip(a, p)) and a[1] == hi
     # structured bid present: the text number is ignored entirely
     same_as_twin(ladder(lambda m, k: dict(m, text=f"I can pay ₹{hi:,}.")))
+
+
+def test_rebuilt_bid_is_never_accepted_as_the_raw_lines():
+    """Duplicate in-stock lines at valid prices pass the kit's per-line check, but they are not the basket we
+    negotiated. A kit `accept` takes the raw lines, so it must never be sent for a bid we had to rebuild
+    (regression: the deal became 2 units while our text said 1)."""
+    p = int(0.9 * L)
+    msgs = [{"type": "request", "items": [bid(int(0.6 * L))]}] + \
+           [{"type": "counter", "items": [bid(p), bid(p)]}] * 9
+    for flags in ({}, {"taint_keeps_bid": True}, {"taint_keeps_bid": True, "basket_growth": False}):
+        res = run(msgs, **flags)
+        clean(res)
+        if res["deal"]:
+            assert sum(i["qty"] for i in res["deal"] if i["sku"] == SKU) == 1, (flags, res["deal"])

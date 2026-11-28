@@ -30,12 +30,14 @@ Scored by the kit's own `ps2-selling-to-machines/evaluate.py`, 210 negotiations 
 |---|---|---|
 | Score, default run | **53.0** | 48.5 |
 | Score, untouched seeds 3-6 (mean) | **49.2** | 44.5 |
+| Score, all 7 seeds (mean ± sample std) | **49.93 ± 2.28** | 45.41 ± 2.25 |
 | Policy + truth violations, all 7 seeds | **0** | 0 |
-| Deadlocks, default run | **0** | 21 |
+| Deadlocks, default run (seed 0) | **0** | 21 |
+| Deadlocks, all 7 seeds | **4** | 164 |
 
 > The leaderboard uses hidden LLM buyers. Test against LLM buyers in the kit's format with `kit_llm_buyers.py` (see STEPS.md).
 
-Our own harness adds what the kit doesn't measure: [REDTEAM](outputs/REDTEAM.md) (22/22 attacks, 200/200 fairness pairs), [ABLATION](outputs/ABLATION.md), [PERF](outputs/PERF.md), [RESULTS](outputs/RESULTS.md).
+Our own harness adds what the kit doesn't measure: [REDTEAM](outputs/REDTEAM.md) (22/22 attacks, gain 0, 200/200 fairness pairs), [ABLATION](outputs/ABLATION_V2.md) (v2 fixes), [rule buyer suite](outputs/suite/rule_after/REPORT.md), [PERF](outputs/PERF.md), [RESULTS](outputs/RESULTS.md). The saved pre-v2 and rerun v2 official results both scored 49.93 ± 2.28 overall and 49.23 on held-out seeds 3–6, with zero policy or truth violations.
 
 ## Run it
 
@@ -49,9 +51,9 @@ python docs/official_results.py     # all seeds, both sellers -> outputs/OFFICIA
 
 ```bash
 pip install -r requirements.txt     # only pytest + requests; the core agent is stdlib-only
-python -m pytest tests -q           # 23 tests incl. a 3,000-message fuzz and the red-team suite
+python -m pytest tests -q           # 40 tests: 38 passed, 2 expected failures (F6 leak regressions)
 python benchmark.py                 # outputs/RESULTS.md (+ logs) for FairDeal AI and the naive baseline
-python -m harness.redteam           # outputs/REDTEAM.md: 21 attacks + fairness
+python -m harness.redteam           # outputs/REDTEAM.md: 22 attacks + fairness
 python -m harness.replay            # outputs/replay.html: open in a browser
 python demo.py                      # terminal showcase: cooperative, manipulator, bundle
 python demo.py --interactive        # you play the buyer
@@ -63,7 +65,7 @@ Run it as a service:
 
 ```bash
 python server.py --port 8080                       # or: docker build -t fairdeal . && docker run -p 8080:8080 fairdeal
-curl -X POST localhost:8080/negotiate -d '{"session_id":"s1","message":{"type":"request","items":[{"sku":"P002","qty":1}]}}'
+curl -X POST localhost:8080/negotiate -d '{"session_id":"s1","message":{"type":"request","items":[{"sku":"S001","qty":1}]}}'
 curl localhost:8080/agent-card
 ```
 
@@ -103,7 +105,7 @@ outputs/       logs, scores, red-team report, replay page
 agent_card.json / AGENT_CARD.md   what the seller can and cannot negotiate
 fairdeal_seller.py                 the starter kit's Seller class (adapter over seller/)
 kit_llm_buyers.py                  LLM-played buyers in the kit's format
-seller/traceware.py                Rezolve Labs TraceWare claim verification (env-enabled)
+seller/traceware.py                TraceWare adapter (tested against a mock; Labs access pending)
 ps2-selling-to-machines/           the official starter kit
 server.py, Dockerfile              web API + container
 tune.py                            settings search against any scoring formula

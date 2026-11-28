@@ -11,6 +11,7 @@ Seeds 0-2 were used to tune FairDeal AI's settings; seeds 3-6 were not.
 """
 import json
 import re
+import statistics
 import subprocess
 import sys
 from pathlib import Path
@@ -71,6 +72,21 @@ def main():
     md.append(f"\nHeld-out seeds 3-6: FairDeal AI **{sm['held_out_mean_score']['fairdeal']}** vs "
               f"{sm['held_out_mean_score']['baseline']}. Across all 7 seeds (1,470 negotiations): "
               f"{sm['violations_all_seeds']} violations, {sm['deadlocks_all_seeds']} deadlocks.\n")
+    before_path = OUT / "baseline/official_results.json"
+    if before_path.exists():
+        before = json.loads(before_path.read_text())
+        old = [before["fairdeal"][str(s)]["score"] for s in SEEDS]
+        new = [res["fairdeal"][s]["score"] for s in SEEDS]
+        md += ["## v1 vs v2 (FairDeal AI)\n",
+               "v1 is the saved pre-v2 run in `outputs/baseline/official_results.json`; v2 is the run above. "
+               "Scores use the same official evaluator and seeds.\n",
+               "| seed | v1 | v2 | held out |", "|---|---:|---:|:---:|"]
+        for s in SEEDS:
+            md.append(f"| {s} | {old[s]:g} | {new[s]:g} | {'yes' if s >= 3 else 'no'} |")
+        md.append(f"| mean ± sample std | {statistics.mean(old):.2f} ± {statistics.stdev(old):.2f} | "
+                  f"{statistics.mean(new):.2f} ± {statistics.stdev(new):.2f} | all |")
+        md.append(f"| held-out mean (seeds 3-6) | {statistics.mean(old[3:]):.2f} | "
+                  f"{statistics.mean(new[3:]):.2f} | yes |\n")
     (OUT / "OFFICIAL.md").write_text("\n".join(md))
     print("\n".join(md))
 

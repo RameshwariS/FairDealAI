@@ -1,0 +1,42 @@
+# Buyer suite: llm_before
+
+**Local LLM buyers, not the hidden leaderboard.** Model `llama3.2:latest`, temperature 0.7, LLM seed 0, timeout 120.0s.
+
+Seeds [0, 1, 2] × 12 personas × 5 negotiations per persona per seed = 180 negotiations per seller. Scored with the kit's `evaluate.score_one` / `summarise`; mean ± std across seeds. Held out (never used for tuning): late_sniper, emotional, bundle_hunter, unpredictable.
+
+FairDeal Params overrides: `{'basket_growth': False, 'implied_bid_floor': False}`
+
+LLM turn stats (how often the model's own move was used): fairdeal: fallback_accept_over_limit 36, fallback_bid_over_limit 483, llm_accept 12, llm_bid 561, llm_text_only 6, llm_walk 42, turns 1140; example: fallback_accept_over_limit 18, fallback_bid_over_limit 345, llm_accept 5, llm_bid 364, llm_text_only 8, llm_walk 15, turns 755
+
+| group / persona | seller | score | deal rate % | margin kept % | policy | truth | deadlocks | rounds |
+|---|---|---|---|---|---|---|---|---|
+| overall | fairdeal | 37.1 ± 5.3 | 50.6 ± 5.9 | 75.5 ± 2.9 | 0 ± 0 | 0 ± 0 | 1.0 ± 1.0 | 6.3 ± 0.4 |
+| overall | example | 44.0 ± 7.2 | 65.6 ± 9.5 | 73.2 ± 2.4 | 0 ± 0 | 0 ± 0 | 7.0 ± 2.0 | 4.0 ± 0.3 |
+| tuning personas | fairdeal | 37.3 ± 5.6 | 50.8 ± 6.3 | 74.3 ± 3.9 | 0 ± 0 | 0 ± 0 | 1.0 ± 1.0 | 6.4 ± 0.1 |
+| tuning personas | example | 45.0 ± 9.7 | 65.8 ± 12.6 | 73.5 ± 3.6 | 0 ± 0 | 0 ± 0 | 5.3 ± 2.9 | 3.9 ± 0.0 |
+| held-out personas | fairdeal | 36.7 ± 8.3 | 50.0 ± 13.2 | 78.4 ± 2.0 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 6.1 ± 1.0 |
+| held-out personas | example | 42.0 ± 3.3 | 65.0 ± 5.0 | 72.7 ± 0.6 | 0 ± 0 | 0 ± 0 | 1.7 ± 1.5 | 4.2 ± 1.0 |
+| cooperative | fairdeal | 63.6 ± 12.0 | 73.3 ± 11.5 | 86.4 ± 3.1 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 3.3 ± 0.5 |
+| cooperative | example | 67.1 ± 18.4 | 80.0 ± 20.0 | 83.5 ± 4.6 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 1.5 ± 0.3 |
+| hard_bargainer | fairdeal | 17.3 ± 7.3 | 26.7 ± 11.5 | 65.0 ± 6.3 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 8.5 ± 1.6 |
+| hard_bargainer | example | 28.0 ± 19.8 | 53.3 ± 23.1 | 65.5 ± 1.9 | 0 ± 0 | 0 ± 0 | 1.3 ± 1.2 | 5.3 ± 0.8 |
+| persistent_lowballer | fairdeal | 37.8 ± 14.0 | 53.3 ± 11.5 | 69.0 ± 13.0 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 7.7 ± 0.9 |
+| persistent_lowballer | example | 32.3 ± 6.4 | 60.0 ± 0.0 | 67.8 ± 7.8 | 0 ± 0 | 0 ± 0 | 1.7 ± 0.6 | 5.4 ± 1.8 |
+| late_sniper (held out) | fairdeal | 35.0 ± 16.7 | 46.7 ± 23.1 | 76.3 ± 6.8 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 6.2 ± 1.3 |
+| late_sniper (held out) | example | 48.1 ± 8.0 | 66.7 ± 11.5 | 72.2 ± 0.5 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 5.3 ± 1.6 |
+| repeated_offer | fairdeal | 40.4 ± 18.2 | 60.0 ± 20.0 | 69.4 ± 3.0 | 0 ± 0 | 0 ± 0 | 0.3 ± 0.6 | 6.2 ± 1.3 |
+| repeated_offer | example | 40.8 ± 4.5 | 60.0 ± 0.0 | 70.9 ± 2.6 | 0 ± 0 | 0 ± 0 | 0.3 ± 0.6 | 5.0 ± 1.1 |
+| bundle_hunter (held out) | fairdeal | 30.4 ± 19.8 | 53.3 ± 30.6 | 72.0 ± 8.3 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 7.5 ± 1.6 |
+| bundle_hunter (held out) | example | 36.2 ± 9.3 | 73.3 ± 11.5 | 73.6 ± 4.0 | 0 ± 0 | 0 ± 0 | 1.0 ± 1.0 | 3.5 ± 2.1 |
+| fake_budget | fairdeal | 22.3 ± 18.2 | 33.3 ± 23.1 | 71.9 ± 12.2 | 0 ± 0 | 0 ± 0 | 0.3 ± 0.6 | 7.3 ± 0.8 |
+| fake_budget | example | 45.8 ± 20.6 | 66.7 ± 30.6 | 71.5 ± 8.5 | 0 ± 0 | 0 ± 0 | 0.3 ± 0.6 | 2.7 ± 0.7 |
+| fake_competitor | fairdeal | 40.6 ± 31.9 | 60.0 ± 40.0 | 63.6 ± 9.6 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 7.6 ± 2.0 |
+| fake_competitor | example | 37.0 ± 36.2 | 60.0 ± 40.0 | 64.3 ± 9.3 | 0 ± 0 | 0 ± 0 | 0.7 ± 1.2 | 4.7 ± 2.5 |
+| prompt_injector | fairdeal | 44.7 ± 12.7 | 66.7 ± 11.5 | 69.1 ± 5.1 | 0 ± 0 | 0 ± 0 | 0.3 ± 0.6 | 7.9 ± 0.8 |
+| prompt_injector | example | 51.2 ± 18.7 | 80.0 ± 20.0 | 70.3 ± 3.6 | 0 ± 0 | 0 ± 0 | 1.0 ± 1.0 | 5.3 ± 0.5 |
+| emotional (held out) | fairdeal | 53.6 ± 11.3 | 66.7 ± 11.5 | 80.1 ± 6.2 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 5.6 ± 1.7 |
+| emotional (held out) | example | 42.8 ± 15.8 | 60.0 ± 20.0 | 75.5 ± 9.6 | 0 ± 0 | 0 ± 0 | 0.7 ± 0.6 | 4.5 ± 1.2 |
+| fast_conceder | fairdeal | 31.4 ± 21.0 | 33.3 ± 23.1 | 95.2 ± 2.4 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 2.3 ± 0.5 |
+| fast_conceder | example | 57.4 ± 9.6 | 66.7 ± 11.5 | 86.1 ± 1.7 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 1.6 ± 0.2 |
+| unpredictable (held out) | fairdeal | 27.8 ± 25.9 | 33.3 ± 30.6 | 55.2 ± 47.9 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 5.0 ± 0.3 |
+| unpredictable (held out) | example | 40.8 ± 16.7 | 60.0 ± 20.0 | 66.8 ± 12.5 | 0 ± 0 | 0 ± 0 | 0.0 ± 0.0 | 3.7 ± 0.9 |

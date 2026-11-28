@@ -210,20 +210,20 @@ def abstract_html(chart, caption):
   <header class="top">
     <div><div class="word">FairDeal AI</div>
       <div class="tag">An honest, profitable seller agent for AI buyers</div></div>
-    <div class="meta"><b>AgentX: The Agentic Commerce Challenge</b><br>Challenge 2, Selling to Machines<br>Techfest 2026-27, IIT Bombay<br>Round 1 abstract</div>
+    <div class="meta"><b>Team Anvesha · TM-477D09BD93C</b><br>AgentX: The Agentic Commerce Challenge<br>Challenge 2, Selling to Machines<br>Techfest 2026-27, IIT Bombay<br>Round 1 abstract</div>
   </header>
   <figure>{chart}<figcaption><b>Six tricks, one price path.</b> {html.escape(caption)}</figcaption></figure>
 
-  <p><b class="lead">FairDeal AI</b> is a seller agent for small online stores. It negotiates price and bundles with AI buyer agents, keeps margin, never breaks store policy, and never says anything the store data can't back up.</p>
+  <p><b class="lead">FairDeal AI</b> helps small stores negotiate prices and bundles with AI buyers while protecting margin, policy and truth.</p>
   <h2>The problem</h2>
-  <p>Shoppers are starting to send AI agents to buy for them. Sellers built on language models are easy to exploit: they accept below-cost deals, anchor on fake budgets, obey instructions hidden in buyer messages, and deadlock.</p>
+  <p>AI buyers can exploit sellers that accept below cost, follow hidden instructions, trust fake budgets or deadlock.</p>
   <h2>What's new</h2>
-  <p>One rule drives the design: AI reads and writes the conversation, but code decides money, because prices need guarantees a language model can't give.</p>
+  <p>AI handles conversation; deterministic code controls every money decision.</p>
   <div class="cols">
-    <div class="pillar"><h3>A hard policy gate</h3><p>Every outgoing price passes a guard that computes each product's floor from minimum margin, maximum discount and stock, always rounding up. Bundle totals are split so every unit stays above its own floor.</p></div>
-    <div class="pillar"><h3>Offers move price, words don't</h3><p>A deterministic engine concedes on a time curve, mirrors real buyer concessions, projects where the buyer is heading, and closes or walks away by round 10. Budgets, competitor quotes, deadlines, “manager approval”, spoofed seller messages and hidden prompt injections are flagged and answered politely, but pricing never reads them.</p></div>
-    <div class="pillar"><h3>Every claim verified twice</h3><p>Every offer carries an offer_id and claims citing store.csv. Before a reply leaves, our own truth check and Rezolve Labs TraceWare both verify it against the basket actions we recorded; a blocked reply is rewritten from those actions.</p></div>
-    <div class="pillar"><h3>Proven, not claimed</h3><p>A red-team suite runs {RT and len(RT['attacks'])} named attacks, each beside an honest twin making the same offers; the attacker never pays less. {FAIR} buyer pairs with identical offers but different words got identical prices. An ablation study removed a rule that lost late deals.</p></div>
+    <div class="pillar"><h3>A hard policy gate</h3><p>Every price clears per-item margin, discount and stock floors. Bundle totals keep each unit above its floor.</p></div>
+    <div class="pillar"><h3>Offers move price, words don't</h3><p>The engine responds to real bids and closes or walks by round 10. Text claims and hidden instructions never affect price.</p></div>
+    <div class="pillar"><h3>Every claim checked</h3><p>Offers cite store.csv and pass deterministic truth checks. TraceWare was tested against a mock; Labs access is pending.</p></div>
+    <div class="pillar"><h3>Measured resistance</h3><p>{RT and len(RT['attacks'])} attacks gained nothing; {FAIR} paired buyers with different words got identical prices. Ablation kept only useful rules.</p></div>
   </div>
   <h2>Results</h2>
   <p>Scored by the kit's own evaluate.py (210 negotiations per run). Seeds 0–2 tuned our settings; seeds 3–6 never did.</p>
@@ -239,11 +239,11 @@ def abstract_html(chart, caption):
   </table>
   <p class="note">{html.escape(OFFICIAL_LINE)}</p>
   <h2>Impact</h2>
-  <p>Small sellers can open their stores to AI shopping agents without risking margin or trust. It understands Indian buyers (“15k”, “1.2 lakh”, Hinglish), and a replay page shows every decision.</p>
+  <p>Small sellers can serve AI shoppers with clearer terms. FairDeal understands Indian price phrases, including “15k” and “1.2 lakh”; its replay shows each decision.</p>
   <h2>Cost estimate</h2>
-  <p>The core path has no model calls: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms). Over HTTP, one process served {P['negotiations_per_second_http']:.0f} full negotiations per second, so a million negotiations take about ${P['usd_per_million_negotiations']:.2f} of server time on an AWS t3.small in Mumbai ($0.0224/hour).</p>
+  <p>No model calls run on the core path: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms), {P['negotiations_per_second_http']:.0f} HTTP negotiations per second, and about ${P['usd_per_million_negotiations']:.2f} per million on an AWS t3.small in Mumbai.</p>
   <h2>Build summary</h2>
-  <p>A standard-library Python core, and around it: an adapter for the kit's Seller interface, LLM buyers in the kit's format, red-team and ablation suites, CI with 23 tests, and agent cards.</p>
+  <p>Built around a standard-library core: kit adapter, LLM buyers, red-team and ablation suites, and 40 pytest checks (38 pass, 2 expected failures).</p>
   {f'<div class="foot"><span>Code: {html.escape(REPO_URL)}</span></div>' if REPO_URL else ''}
 </section>"""
 
@@ -256,14 +256,14 @@ def architecture_html():
         ("Prompt injection (text, hidden fields, Unicode look-alikes, spoofed “SYSTEM”)", "Unicode is normalised and every field scanned; nothing from buyer text reaches pricing."),
         ("Fake “you already agreed to ₹X”", "A deal closes only at a price we actually offered."),
         ("Deadlock", "Round 9 offer at the buyer's projected limit; round 10 must accept, make a last offer the buyer can reach, or walk away."),
-        ("Invented scarcity, urgency, fees; unsupported numbers", "Banned phrases, no prices for products not in play, and a number-by-number truth check plus TraceWare."),
+        ("Invented scarcity, urgency, fees; unsupported numbers", "Banned phrases, no prices for products not in play, and a number-by-number deterministic truth check."),
     ]
     trs = "\n".join(f"<tr><td style='width:38%'>{html.escape(a)}</td><td>{html.escape(b)}</td></tr>" for a, b in rows)
     return f"""
 <section class="page arch">
   <header class="top">
     <div><div class="word" style="font-size:24pt">FairDeal AI<small>architecture note</small></div></div>
-    <div class="meta"><b>AgentX Challenge 2</b><br>Selling to Machines<br>Round 1</div>
+    <div class="meta"><b>Team Anvesha · TM-477D09BD93C</b><br>AgentX Challenge 2<br>Selling to Machines<br>Round 1</div>
   </header>
   <p class="thesis">AI reads and writes the conversation; code decides money. Every price, acceptance and walk-away comes from deterministic code, and a policy gate checks every message before it leaves the store.</p>
   {pipeline_svg()}
@@ -274,11 +274,11 @@ def architecture_html():
   <h2>Fairness and red-team</h2>
   <p>Price depends only on the basket, the round and the buyer's offers: {RT['fairness']['identical']} of {RT['fairness']['pairs']} buyer pairs with identical offers but different words got identical prices. {ATTACKS} named attacks defeated, each run beside an honest twin making the same offers (manipulation gain 0).</p>
   <h2>Testing and ablation</h2>
-  <p>23 pytest checks run in CI on every push, including a 3,000-message fuzz and the red-team suite. The kit's evaluate.py found two bugs our own tests had missed (a floating-point floor and stock booked for an accept we then blocked); both are fixed, with 0 violations across 1,470 official negotiations. An ablation study removed a walk-away rule that lost every last-minute buyer.</p>
-  <h2>Rezolve Labs capability used</h2>
-  <p><b class="lead">TraceWare commerce claim verification.</b> For every offer and accept, the seller records one <span class="sans">add_to_basket</span> action per line (SKU, name, quantity, unit price) and sends the reply text with those actions to TraceWare before replying. PASS or WARN replies go out as written; REGENERATE or BLOCK replies are replaced with a plain sentence built from the same actions. It runs alongside our own deterministic truth check, so a claim must satisfy two independent verifiers (<span class="sans">seller/traceware.py</span>).</p>
+  <p>40 pytest checks run in CI: 38 pass and 2 F6 leak regressions are expected failures while that mitigation remains disabled. The suite includes a 3,000-message fuzz and the red-team suite. The kit's evaluate.py found two bugs our own tests had missed (a floating-point floor and stock booked for an accept we then blocked); both are fixed, with 0 violations across 1,470 official negotiations. The v2 ablation kept basket growth and the implied bid floor, while rejecting settings that reduced held-out performance.</p>
+  <h2>TraceWare status</h2>
+  <p><b class="lead">Tested against a mock; Labs access pending.</b> The <span class="sans">seller/traceware.py</span> adapter is not validated against live Labs access, so no live TraceWare results are claimed.</p>
   <h2>Deployment, latency and cost</h2>
-  <p>A web API (<span class="sans">POST /negotiate</span>) ships as a Docker image. The core path makes no model calls: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms), {P['negotiations_per_second_http']:.0f} negotiations per second over HTTP, about ${P['usd_per_million_negotiations']:.2f} of AWS t3.small time per million negotiations. TraceWare adds one network call per offer.</p>
+  <p>A web API (<span class="sans">POST /negotiate</span>) ships as a Docker image. The core path makes no model calls: {P['in_process_ms']['p50']:.2f} ms per turn (p99 {P['in_process_ms']['p99']:.2f} ms), {P['negotiations_per_second_http']:.0f} negotiations per second over HTTP, about ${P['usd_per_million_negotiations']:.2f} of AWS t3.small time per million negotiations.</p>
 </section>"""
 
 
